@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import api from '../lib/api.service'
 
 export function useData<T>(endpoint: string, deps: any[] = []) {
@@ -6,25 +6,26 @@ export function useData<T>(endpoint: string, deps: any[] = []) {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        setLoading(true)
-        const response = await api.get(endpoint)
-        setData(response.data)
-        setError(null)
-      } catch (err) {
-        setError(err instanceof Error ? err.message : 'An error occurred')
-        setData(null)
-      } finally {
-        setLoading(false)
-      }
+  const fetchData = useCallback(async () => {
+    try {
+      setLoading(true)
+      const response = await api.get(endpoint)
+      setData(response.data)
+      setError(null)
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'An error occurred')
+      setData(null)
+    } finally {
+      setLoading(false)
     }
+  }, [endpoint])  // eslint-disable-line react-hooks/exhaustive-deps
 
+  useEffect(() => {
     fetchData()
-  }, deps)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [fetchData, ...deps])
 
-  return { data, loading, error }
+  return { data, loading, error, refetch: fetchData }
 }
 
 export function useMutation<T, R = void>(fn: (data: T) => Promise<R>) {
