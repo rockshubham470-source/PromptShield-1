@@ -24,6 +24,10 @@ import UsageMetrics from './pages/UsageMetrics'
 import AuditLogs from './pages/AuditLogs'
 import LiveMonitoring from './pages/LiveMonitoring'
 import Notifications from './pages/Notifications'
+import Security from './pages/Security'
+import Webhooks from './pages/Webhooks'
+import Team from './pages/Team'
+import Billing from './pages/Billing'
 
 import './index.css'
 
@@ -83,6 +87,10 @@ function App() {
                   <Route path="/audit-logs" element={<AuditLogs />} />
                   <Route path="/live" element={<LiveMonitoring />} />
                   <Route path="/notifications" element={<Notifications />} />
+                  <Route path="/security" element={<Security />} />
+                  <Route path="/webhooks" element={<Webhooks />} />
+                  <Route path="/team" element={<Team />} />
+                  <Route path="/billing" element={<Billing />} />
 
                   <Route path="*" element={<Navigate to="/" replace />} />
                 </Routes>

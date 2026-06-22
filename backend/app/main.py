@@ -13,6 +13,7 @@ from app.core.database import engine
 from app.models import Base
 from app.api import (auth, detections, stats, rules, applications, telemetry, usage, billing, organizations)
 from app.api import applications
+from app.api import mfa, webhooks, team, ip_allowlist, password_reset, sessions
 from slowapi import Limiter, _rate_limit_exceeded_handler
 from slowapi.util import get_remote_address
 from slowapi.errors import RateLimitExceeded
@@ -105,11 +106,30 @@ api_router.include_router(telemetry.router)
 api_router.include_router(usage.router)
 api_router.include_router(billing.router)
 api_router.include_router(organizations.router)
+# Enterprise SaaS endpoints
+api_router.include_router(mfa.router)
+api_router.include_router(webhooks.router)
+api_router.include_router(team.router)
+api_router.include_router(ip_allowlist.router)
+api_router.include_router(password_reset.router)
+api_router.include_router(sessions.router)
 app.include_router(api_router)
 
 @app.get("/health")
 async def health_check():
-    return {"status": "healthy", "version": settings.api_version}
+    from app.core.database import engine
+    db_status = "healthy"
+    try:
+        with engine.connect() as conn:
+            conn.execute(__import__('sqlalchemy').text("SELECT 1"))
+    except Exception:
+        db_status = "degraded"
+    return {
+        "status": "healthy" if db_status == "healthy" else "degraded",
+        "version": settings.api_version,
+        "database": db_status,
+        "environment": settings.environment,
+    }
 
 @app.get("/")
 async def root():

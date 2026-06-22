@@ -11,6 +11,10 @@ import {
   Activity,
   FileText,
   Gauge,
+  LockKeyhole,
+  Webhook,
+  Users,
+  CreditCard,
 } from 'lucide-react'
 
 const menuItems = [
@@ -35,6 +39,15 @@ const menuItems = [
     items: [
       { icon: Shield, label: 'Rules', path: '/rules' },
       { icon: FileText, label: 'Audit Logs', path: '/audit-logs' },
+      { icon: LockKeyhole, label: 'Security', path: '/security' },
+      { icon: Webhook, label: 'Webhooks', path: '/webhooks' },
+    ],
+  },
+  {
+    group: 'Organization',
+    items: [
+      { icon: Users, label: 'Team', path: '/team' },
+      { icon: CreditCard, label: 'Billing', path: '/billing' },
     ],
   },
   {

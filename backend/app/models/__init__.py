@@ -686,8 +686,127 @@ class Subscription(Base):
     status = Column(
         String,
         nullable=False
-    )  
+    )
     __table_args__ = (
         Index("idx_subscriptions_org", "organization_id"),
         Index("idx_subscriptions_plan", "plan_id"),
+    )
+
+
+# ─── Enterprise SaaS Models ────────────────────────────────────────────────────
+
+class MFASecret(Base):
+    """TOTP-based multi-factor authentication secret per user"""
+    __tablename__ = "mfa_secrets"
+
+    id = Column(String, primary_key=True, default=lambda: str(uuid.uuid4()))
+    user_id = Column(String, ForeignKey("users.id"), nullable=False, unique=True, index=True)
+    secret = Column(String, nullable=False)           # base32-encoded TOTP secret
+    is_enabled = Column(Boolean, default=False)
+    backup_codes = Column(Text, nullable=True)        # JSON list of hashed backup codes
+    created_at = Column(DateTime, default=datetime.utcnow)
+    enabled_at = Column(DateTime, nullable=True)
+
+    user = relationship("User", backref="mfa_secret")
+
+
+class IpAllowlist(Base):
+    """Per-organization IP allowlist entries"""
+    __tablename__ = "ip_allowlist"
+
+    id = Column(String, primary_key=True, default=lambda: str(uuid.uuid4()))
+    organization_id = Column(String, ForeignKey("organizations.id"), nullable=False, index=True)
+    cidr = Column(String, nullable=False)             # e.g. "203.0.113.0/24" or "10.0.0.1/32"
+    label = Column(String, nullable=True)
+    created_by = Column(String, ForeignKey("users.id"), nullable=False)
+    created_at = Column(DateTime, default=datetime.utcnow)
+    is_active = Column(Boolean, default=True)
+
+    organization = relationship("Organization", backref="ip_allowlist")
+    creator = relationship("User")
+
+    __table_args__ = (
+        Index("idx_ip_allowlist_org", "organization_id"),
+    )
+
+
+class Webhook(Base):
+    """Outbound webhook endpoints registered by an organization"""
+    __tablename__ = "webhooks"
+
+    id = Column(String, primary_key=True, default=lambda: str(uuid.uuid4()))
+    organization_id = Column(String, ForeignKey("organizations.id"), nullable=False, index=True)
+    name = Column(String, nullable=False)
+    url = Column(String, nullable=False)
+    secret = Column(String, nullable=False)           # HMAC signing secret
+    events = Column(Text, nullable=False)             # JSON list of subscribed events
+    is_active = Column(Boolean, default=True)
+    created_at = Column(DateTime, default=datetime.utcnow)
+    last_triggered_at = Column(DateTime, nullable=True)
+    last_status_code = Column(Integer, nullable=True)
+    failure_count = Column(Integer, default=0)
+
+    organization = relationship("Organization", backref="webhooks")
+
+    __table_args__ = (
+        Index("idx_webhooks_org", "organization_id"),
+    )
+
+
+class TeamInvitation(Base):
+    """Pending email invitations to join an organization"""
+    __tablename__ = "team_invitations"
+
+    id = Column(String, primary_key=True, default=lambda: str(uuid.uuid4()))
+    organization_id = Column(String, ForeignKey("organizations.id"), nullable=False, index=True)
+    invited_by = Column(String, ForeignKey("users.id"), nullable=False)
+    email = Column(String, nullable=False)
+    role = Column(String, nullable=False, default="member")  # owner | admin | member | viewer
+    token = Column(String, nullable=False, unique=True, index=True)
+    expires_at = Column(DateTime, nullable=False)
+    accepted_at = Column(DateTime, nullable=True)
+    created_at = Column(DateTime, default=datetime.utcnow)
+
+    organization = relationship("Organization", backref="invitations")
+    inviter = relationship("User")
+
+    __table_args__ = (
+        Index("idx_team_inv_org_email", "organization_id", "email"),
+    )
+
+
+class PasswordResetToken(Base):
+    """Single-use password reset tokens"""
+    __tablename__ = "password_reset_tokens"
+
+    id = Column(String, primary_key=True, default=lambda: str(uuid.uuid4()))
+    user_id = Column(String, ForeignKey("users.id"), nullable=False, index=True)
+    token_hash = Column(String, nullable=False, unique=True, index=True)
+    expires_at = Column(DateTime, nullable=False)
+    used_at = Column(DateTime, nullable=True)
+    created_at = Column(DateTime, default=datetime.utcnow)
+
+    user = relationship("User")
+
+
+class Session(Base):
+    """Active user sessions for multi-device management"""
+    __tablename__ = "sessions"
+
+    id = Column(String, primary_key=True, default=lambda: str(uuid.uuid4()))
+    user_id = Column(String, ForeignKey("users.id"), nullable=False, index=True)
+    jti = Column(String, nullable=False, unique=True, index=True)  # JWT ID
+    device_info = Column(String, nullable=True)
+    ip_address = Column(String, nullable=True)
+    user_agent = Column(String, nullable=True)
+    created_at = Column(DateTime, default=datetime.utcnow)
+    last_active_at = Column(DateTime, default=datetime.utcnow)
+    expires_at = Column(DateTime, nullable=False)
+    is_revoked = Column(Boolean, default=False)
+
+    user = relationship("User")
+
+    __table_args__ = (
+        Index("idx_sessions_user", "user_id"),
+        Index("idx_sessions_jti", "jti"),
     )
