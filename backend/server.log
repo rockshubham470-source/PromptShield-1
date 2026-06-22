@@ -1,0 +1,1659 @@
+INFO:     Will watch for changes in these directories: ['/Users/shubhamchhapolika/promptshield/backend']
+INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
+INFO:     Started reloader process [9989] using WatchFiles
+2026-06-15 15:07:52,114 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-06-15 15:07:52,114 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("organization_users")
+2026-06-15 15:07:52,114 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 15:07:52,114 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("organizations")
+2026-06-15 15:07:52,114 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 15:07:52,114 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("users")
+2026-06-15 15:07:52,114 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 15:07:52,114 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("applications")
+2026-06-15 15:07:52,114 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 15:07:52,114 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("api_keys")
+2026-06-15 15:07:52,114 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 15:07:52,114 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("detections")
+2026-06-15 15:07:52,114 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 15:07:52,114 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("usage_metrics")
+2026-06-15 15:07:52,114 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 15:07:52,115 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("rules")
+2026-06-15 15:07:52,115 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 15:07:52,115 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("audit_logs")
+2026-06-15 15:07:52,115 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 15:07:52,115 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("token_blacklist")
+2026-06-15 15:07:52,115 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 15:07:52,115 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("plans")
+2026-06-15 15:07:52,115 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 15:07:52,115 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("subscriptions")
+2026-06-15 15:07:52,115 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 15:07:52,115 INFO sqlalchemy.engine.Engine COMMIT
+INFO:     Started server process [9992]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+Creating database session
+Database session created
+2026-06-15 15:08:12,966 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-06-15 15:08:12,967 INFO sqlalchemy.engine.Engine SELECT users.id AS users_id, users.email AS users_email, users.name AS users_name, users.password_hash AS users_password_hash, users.tier AS users_tier, users.is_active AS users_is_active, users.is_verified AS users_is_verified, users.failed_login_attempts AS users_failed_login_attempts, users.locked_until AS users_locked_until, users.created_at AS users_created_at, users.updated_at AS users_updated_at 
+FROM users 
+WHERE users.email = ?
+ LIMIT ? OFFSET ?
+2026-06-15 15:08:12,967 INFO sqlalchemy.engine.Engine [generated in 0.00009s] ('test@example.com', 1, 0)
+INFO:     127.0.0.1:57188 - "POST /api/auth/login HTTP/1.1" 200 OK
+Closing database session
+2026-06-15 15:08:13,161 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:57210 - "OPTIONS /api/applications HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57211 - "OPTIONS /api/applications HTTP/1.1" 200 OK
+Creating database session
+Database session created
+2026-06-15 15:08:29,037 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-06-15 15:08:29,038 INFO sqlalchemy.engine.Engine SELECT users.id AS users_id, users.email AS users_email, users.name AS users_name, users.password_hash AS users_password_hash, users.tier AS users_tier, users.is_active AS users_is_active, users.is_verified AS users_is_verified, users.failed_login_attempts AS users_failed_login_attempts, users.locked_until AS users_locked_until, users.created_at AS users_created_at, users.updated_at AS users_updated_at 
+FROM users 
+WHERE users.id = ?
+ LIMIT ? OFFSET ?
+2026-06-15 15:08:29,038 INFO sqlalchemy.engine.Engine [generated in 0.00024s] ('e2b277b9-f3d9-4a1e-b1b7-d4fe4bbc3f37', 1, 0)
+2026-06-15 15:08:29,042 INFO sqlalchemy.engine.Engine SELECT organization_users.id AS organization_users_id, organization_users.organization_id AS organization_users_organization_id, organization_users.user_id AS organization_users_user_id, organization_users.role AS organization_users_role 
+FROM organization_users 
+WHERE organization_users.user_id = ?
+ LIMIT ? OFFSET ?
+2026-06-15 15:08:29,042 INFO sqlalchemy.engine.Engine [generated in 0.00032s] ('e2b277b9-f3d9-4a1e-b1b7-d4fe4bbc3f37', 1, 0)
+2026-06-15 15:08:29,044 INFO sqlalchemy.engine.Engine SELECT applications.id AS applications_id, applications.user_id AS applications_user_id, applications.organization_id AS applications_organization_id, applications.name AS applications_name, applications.description AS applications_description, applications.environment AS applications_environment, applications.provider AS applications_provider, applications.is_active AS applications_is_active, applications.created_at AS applications_created_at, applications.updated_at AS applications_updated_at 
+FROM applications 
+WHERE applications.user_id = ? AND applications.organization_id = ?
+2026-06-15 15:08:29,044 INFO sqlalchemy.engine.Engine [generated in 0.00020s] ('e2b277b9-f3d9-4a1e-b1b7-d4fe4bbc3f37', 'eb12bc0e851b31f47137e80d3fa3ce42')
+INFO:     127.0.0.1:57210 - "GET /api/applications HTTP/1.1" 200 OK
+Closing database session
+2026-06-15 15:08:29,046 INFO sqlalchemy.engine.Engine ROLLBACK
+Creating database session
+Database session created
+2026-06-15 15:08:29,048 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-06-15 15:08:29,048 INFO sqlalchemy.engine.Engine SELECT users.id AS users_id, users.email AS users_email, users.name AS users_name, users.password_hash AS users_password_hash, users.tier AS users_tier, users.is_active AS users_is_active, users.is_verified AS users_is_verified, users.failed_login_attempts AS users_failed_login_attempts, users.locked_until AS users_locked_until, users.created_at AS users_created_at, users.updated_at AS users_updated_at 
+FROM users 
+WHERE users.id = ?
+ LIMIT ? OFFSET ?
+2026-06-15 15:08:29,048 INFO sqlalchemy.engine.Engine [cached since 0.01013s ago] ('e2b277b9-f3d9-4a1e-b1b7-d4fe4bbc3f37', 1, 0)
+2026-06-15 15:08:29,049 INFO sqlalchemy.engine.Engine SELECT organization_users.id AS organization_users_id, organization_users.organization_id AS organization_users_organization_id, organization_users.user_id AS organization_users_user_id, organization_users.role AS organization_users_role 
+FROM organization_users 
+WHERE organization_users.user_id = ?
+ LIMIT ? OFFSET ?
+2026-06-15 15:08:29,049 INFO sqlalchemy.engine.Engine [cached since 0.00715s ago] ('e2b277b9-f3d9-4a1e-b1b7-d4fe4bbc3f37', 1, 0)
+2026-06-15 15:08:29,049 INFO sqlalchemy.engine.Engine SELECT applications.id AS applications_id, applications.user_id AS applications_user_id, applications.organization_id AS applications_organization_id, applications.name AS applications_name, applications.description AS applications_description, applications.environment AS applications_environment, applications.provider AS applications_provider, applications.is_active AS applications_is_active, applications.created_at AS applications_created_at, applications.updated_at AS applications_updated_at 
+FROM applications 
+WHERE applications.user_id = ? AND applications.organization_id = ?
+2026-06-15 15:08:29,049 INFO sqlalchemy.engine.Engine [cached since 0.005363s ago] ('e2b277b9-f3d9-4a1e-b1b7-d4fe4bbc3f37', 'eb12bc0e851b31f47137e80d3fa3ce42')
+INFO:     127.0.0.1:57210 - "GET /api/applications HTTP/1.1" 200 OK
+Closing database session
+2026-06-15 15:08:29,050 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:57211 - "OPTIONS /api/detections HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57213 - "OPTIONS /api/detections HTTP/1.1" 200 OK
+Creating database session
+Database session created
+2026-06-15 15:08:30,166 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-06-15 15:08:30,166 INFO sqlalchemy.engine.Engine SELECT users.id AS users_id, users.email AS users_email, users.name AS users_name, users.password_hash AS users_password_hash, users.tier AS users_tier, users.is_active AS users_is_active, users.is_verified AS users_is_verified, users.failed_login_attempts AS users_failed_login_attempts, users.locked_until AS users_locked_until, users.created_at AS users_created_at, users.updated_at AS users_updated_at 
+FROM users 
+WHERE users.id = ?
+ LIMIT ? OFFSET ?
+2026-06-15 15:08:30,166 INFO sqlalchemy.engine.Engine [cached since 1.128s ago] ('e2b277b9-f3d9-4a1e-b1b7-d4fe4bbc3f37', 1, 0)
+2026-06-15 15:08:30,169 INFO sqlalchemy.engine.Engine SELECT organization_users.id AS organization_users_id, organization_users.organization_id AS organization_users_organization_id, organization_users.user_id AS organization_users_user_id, organization_users.role AS organization_users_role 
+FROM organization_users 
+WHERE organization_users.user_id = ?
+ LIMIT ? OFFSET ?
+2026-06-15 15:08:30,169 INFO sqlalchemy.engine.Engine [cached since 1.128s ago] ('e2b277b9-f3d9-4a1e-b1b7-d4fe4bbc3f37', 1, 0)
+Creating database session
+Database session created
+2026-06-15 15:08:30,171 INFO sqlalchemy.engine.Engine SELECT applications.id AS applications_id, applications.user_id AS applications_user_id, applications.organization_id AS applications_organization_id, applications.name AS applications_name, applications.description AS applications_description, applications.environment AS applications_environment, applications.provider AS applications_provider, applications.is_active AS applications_is_active, applications.created_at AS applications_created_at, applications.updated_at AS applications_updated_at 
+FROM applications 
+WHERE applications.user_id = ? AND applications.organization_id = ?
+2026-06-15 15:08:30,171 INFO sqlalchemy.engine.Engine [cached since 1.127s ago] ('e2b277b9-f3d9-4a1e-b1b7-d4fe4bbc3f37', 'eb12bc0e851b31f47137e80d3fa3ce42')
+2026-06-15 15:08:30,173 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-06-15 15:08:30,173 INFO sqlalchemy.engine.Engine SELECT users.id AS users_id, users.email AS users_email, users.name AS users_name, users.password_hash AS users_password_hash, users.tier AS users_tier, users.is_active AS users_is_active, users.is_verified AS users_is_verified, users.failed_login_attempts AS users_failed_login_attempts, users.locked_until AS users_locked_until, users.created_at AS users_created_at, users.updated_at AS users_updated_at 
+FROM users 
+WHERE users.id = ?
+ LIMIT ? OFFSET ?
+2026-06-15 15:08:30,173 INFO sqlalchemy.engine.Engine [cached since 1.135s ago] ('e2b277b9-f3d9-4a1e-b1b7-d4fe4bbc3f37', 1, 0)
+2026-06-15 15:08:30,174 INFO sqlalchemy.engine.Engine SELECT organization_users.id AS organization_users_id, organization_users.organization_id AS organization_users_organization_id, organization_users.user_id AS organization_users_user_id, organization_users.role AS organization_users_role 
+FROM organization_users 
+WHERE organization_users.user_id = ?
+ LIMIT ? OFFSET ?
+2026-06-15 15:08:30,174 INFO sqlalchemy.engine.Engine [cached since 1.133s ago] ('e2b277b9-f3d9-4a1e-b1b7-d4fe4bbc3f37', 1, 0)
+INFO:     127.0.0.1:57210 - "GET /api/applications HTTP/1.1" 200 OK
+2026-06-15 15:08:30,177 INFO sqlalchemy.engine.Engine SELECT detections.id AS detections_id, detections.user_id AS detections_user_id, detections.organization_id AS detections_organization_id, detections.application_id AS detections_application_id, detections.prompt AS detections_prompt, detections.risk_score AS detections_risk_score, detections.risk_level AS detections_risk_level, detections.detected_patterns AS detections_detected_patterns, detections.processing_time_ms AS detections_processing_time_ms, detections.source AS detections_source, detections.created_at AS detections_created_at 
+FROM detections 
+WHERE detections.user_id = ? AND detections.organization_id = ? ORDER BY detections.created_at DESC
+ LIMIT ? OFFSET ?
+2026-06-15 15:08:30,177 INFO sqlalchemy.engine.Engine [generated in 0.00014s] ('e2b277b9-f3d9-4a1e-b1b7-d4fe4bbc3f37', 'eb12bc0e851b31f47137e80d3fa3ce42', 50, 0)
+Closing database session
+2026-06-15 15:08:30,178 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:57213 - "GET /api/detections HTTP/1.1" 200 OK
+Closing database session
+2026-06-15 15:08:30,178 INFO sqlalchemy.engine.Engine ROLLBACK
+Creating database session
+Database session created
+2026-06-15 15:08:30,180 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-06-15 15:08:30,180 INFO sqlalchemy.engine.Engine SELECT users.id AS users_id, users.email AS users_email, users.name AS users_name, users.password_hash AS users_password_hash, users.tier AS users_tier, users.is_active AS users_is_active, users.is_verified AS users_is_verified, users.failed_login_attempts AS users_failed_login_attempts, users.locked_until AS users_locked_until, users.created_at AS users_created_at, users.updated_at AS users_updated_at 
+FROM users 
+WHERE users.id = ?
+ LIMIT ? OFFSET ?
+2026-06-15 15:08:30,180 INFO sqlalchemy.engine.Engine [cached since 1.142s ago] ('e2b277b9-f3d9-4a1e-b1b7-d4fe4bbc3f37', 1, 0)
+2026-06-15 15:08:30,180 INFO sqlalchemy.engine.Engine SELECT organization_users.id AS organization_users_id, organization_users.organization_id AS organization_users_organization_id, organization_users.user_id AS organization_users_user_id, organization_users.role AS organization_users_role 
+FROM organization_users 
+WHERE organization_users.user_id = ?
+ LIMIT ? OFFSET ?
+2026-06-15 15:08:30,180 INFO sqlalchemy.engine.Engine [cached since 1.139s ago] ('e2b277b9-f3d9-4a1e-b1b7-d4fe4bbc3f37', 1, 0)
+2026-06-15 15:08:30,182 INFO sqlalchemy.engine.Engine SELECT applications.id AS applications_id, applications.user_id AS applications_user_id, applications.organization_id AS applications_organization_id, applications.name AS applications_name, applications.description AS applications_description, applications.environment AS applications_environment, applications.provider AS applications_provider, applications.is_active AS applications_is_active, applications.created_at AS applications_created_at, applications.updated_at AS applications_updated_at 
+FROM applications 
+WHERE applications.user_id = ? AND applications.organization_id = ?
+2026-06-15 15:08:30,182 INFO sqlalchemy.engine.Engine [cached since 1.138s ago] ('e2b277b9-f3d9-4a1e-b1b7-d4fe4bbc3f37', 'eb12bc0e851b31f47137e80d3fa3ce42')
+Creating database session
+Database session created
+2026-06-15 15:08:30,183 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-06-15 15:08:30,183 INFO sqlalchemy.engine.Engine SELECT users.id AS users_id, users.email AS users_email, users.name AS users_name, users.password_hash AS users_password_hash, users.tier AS users_tier, users.is_active AS users_is_active, users.is_verified AS users_is_verified, users.failed_login_attempts AS users_failed_login_attempts, users.locked_until AS users_locked_until, users.created_at AS users_created_at, users.updated_at AS users_updated_at 
+FROM users 
+WHERE users.id = ?
+ LIMIT ? OFFSET ?
+2026-06-15 15:08:30,183 INFO sqlalchemy.engine.Engine [cached since 1.145s ago] ('e2b277b9-f3d9-4a1e-b1b7-d4fe4bbc3f37', 1, 0)
+2026-06-15 15:08:30,184 INFO sqlalchemy.engine.Engine SELECT organization_users.id AS organization_users_id, organization_users.organization_id AS organization_users_organization_id, organization_users.user_id AS organization_users_user_id, organization_users.role AS organization_users_role 
+FROM organization_users 
+WHERE organization_users.user_id = ?
+ LIMIT ? OFFSET ?
+2026-06-15 15:08:30,184 INFO sqlalchemy.engine.Engine [cached since 1.143s ago] ('e2b277b9-f3d9-4a1e-b1b7-d4fe4bbc3f37', 1, 0)
+INFO:     127.0.0.1:57210 - "GET /api/applications HTTP/1.1" 200 OK
+2026-06-15 15:08:30,186 INFO sqlalchemy.engine.Engine SELECT detections.id AS detections_id, detections.user_id AS detections_user_id, detections.organization_id AS detections_organization_id, detections.application_id AS detections_application_id, detections.prompt AS detections_prompt, detections.risk_score AS detections_risk_score, detections.risk_level AS detections_risk_level, detections.detected_patterns AS detections_detected_patterns, detections.processing_time_ms AS detections_processing_time_ms, detections.source AS detections_source, detections.created_at AS detections_created_at 
+FROM detections 
+WHERE detections.user_id = ? AND detections.organization_id = ? ORDER BY detections.created_at DESC
+ LIMIT ? OFFSET ?
+Closing database session
+2026-06-15 15:08:30,186 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-06-15 15:08:30,186 INFO sqlalchemy.engine.Engine [cached since 0.009033s ago] ('e2b277b9-f3d9-4a1e-b1b7-d4fe4bbc3f37', 'eb12bc0e851b31f47137e80d3fa3ce42', 50, 0)
+INFO:     127.0.0.1:57213 - "GET /api/detections HTTP/1.1" 200 OK
+Closing database session
+2026-06-15 15:08:30,187 INFO sqlalchemy.engine.Engine ROLLBACK
+Creating database session
+Database session created
+2026-06-15 15:08:31,002 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-06-15 15:08:31,002 INFO sqlalchemy.engine.Engine SELECT users.id AS users_id, users.email AS users_email, users.name AS users_name, users.password_hash AS users_password_hash, users.tier AS users_tier, users.is_active AS users_is_active, users.is_verified AS users_is_verified, users.failed_login_attempts AS users_failed_login_attempts, users.locked_until AS users_locked_until, users.created_at AS users_created_at, users.updated_at AS users_updated_at 
+FROM users 
+WHERE users.id = ?
+ LIMIT ? OFFSET ?
+2026-06-15 15:08:31,003 INFO sqlalchemy.engine.Engine [cached since 1.965s ago] ('e2b277b9-f3d9-4a1e-b1b7-d4fe4bbc3f37', 1, 0)
+2026-06-15 15:08:31,004 INFO sqlalchemy.engine.Engine SELECT organization_users.id AS organization_users_id, organization_users.organization_id AS organization_users_organization_id, organization_users.user_id AS organization_users_user_id, organization_users.role AS organization_users_role 
+FROM organization_users 
+WHERE organization_users.user_id = ?
+ LIMIT ? OFFSET ?
+2026-06-15 15:08:31,004 INFO sqlalchemy.engine.Engine [cached since 1.963s ago] ('e2b277b9-f3d9-4a1e-b1b7-d4fe4bbc3f37', 1, 0)
+2026-06-15 15:08:31,005 INFO sqlalchemy.engine.Engine SELECT applications.id AS applications_id, applications.user_id AS applications_user_id, applications.organization_id AS applications_organization_id, applications.name AS applications_name, applications.description AS applications_description, applications.environment AS applications_environment, applications.provider AS applications_provider, applications.is_active AS applications_is_active, applications.created_at AS applications_created_at, applications.updated_at AS applications_updated_at 
+FROM applications 
+WHERE applications.user_id = ? AND applications.organization_id = ?
+2026-06-15 15:08:31,006 INFO sqlalchemy.engine.Engine [cached since 1.962s ago] ('e2b277b9-f3d9-4a1e-b1b7-d4fe4bbc3f37', 'eb12bc0e851b31f47137e80d3fa3ce42')
+INFO:     127.0.0.1:57213 - "GET /api/applications HTTP/1.1" 200 OK
+Closing database session
+2026-06-15 15:08:31,008 INFO sqlalchemy.engine.Engine ROLLBACK
+Creating database session
+Database session created
+2026-06-15 15:08:31,010 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-06-15 15:08:31,010 INFO sqlalchemy.engine.Engine SELECT users.id AS users_id, users.email AS users_email, users.name AS users_name, users.password_hash AS users_password_hash, users.tier AS users_tier, users.is_active AS users_is_active, users.is_verified AS users_is_verified, users.failed_login_attempts AS users_failed_login_attempts, users.locked_until AS users_locked_until, users.created_at AS users_created_at, users.updated_at AS users_updated_at 
+FROM users 
+WHERE users.id = ?
+ LIMIT ? OFFSET ?
+2026-06-15 15:08:31,011 INFO sqlalchemy.engine.Engine [cached since 1.973s ago] ('e2b277b9-f3d9-4a1e-b1b7-d4fe4bbc3f37', 1, 0)
+2026-06-15 15:08:31,011 INFO sqlalchemy.engine.Engine SELECT organization_users.id AS organization_users_id, organization_users.organization_id AS organization_users_organization_id, organization_users.user_id AS organization_users_user_id, organization_users.role AS organization_users_role 
+FROM organization_users 
+WHERE organization_users.user_id = ?
+ LIMIT ? OFFSET ?
+2026-06-15 15:08:31,011 INFO sqlalchemy.engine.Engine [cached since 1.97s ago] ('e2b277b9-f3d9-4a1e-b1b7-d4fe4bbc3f37', 1, 0)
+2026-06-15 15:08:31,012 INFO sqlalchemy.engine.Engine SELECT applications.id AS applications_id, applications.user_id AS applications_user_id, applications.organization_id AS applications_organization_id, applications.name AS applications_name, applications.description AS applications_description, applications.environment AS applications_environment, applications.provider AS applications_provider, applications.is_active AS applications_is_active, applications.created_at AS applications_created_at, applications.updated_at AS applications_updated_at 
+FROM applications 
+WHERE applications.user_id = ? AND applications.organization_id = ?
+2026-06-15 15:08:31,012 INFO sqlalchemy.engine.Engine [cached since 1.968s ago] ('e2b277b9-f3d9-4a1e-b1b7-d4fe4bbc3f37', 'eb12bc0e851b31f47137e80d3fa3ce42')
+INFO:     127.0.0.1:57213 - "GET /api/applications HTTP/1.1" 200 OK
+Closing database session
+2026-06-15 15:08:31,012 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:57213 - "OPTIONS /api/applications/2eb4d9f5-5a69-453a-9d6a-01d95a55b327 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57210 - "OPTIONS /api/applications/2eb4d9f5-5a69-453a-9d6a-01d95a55b327/metrics HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57211 - "OPTIONS /api/applications/2eb4d9f5-5a69-453a-9d6a-01d95a55b327/api-keys HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57215 - "OPTIONS /api/applications/2eb4d9f5-5a69-453a-9d6a-01d95a55b327/detections HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57218 - "OPTIONS /api/applications/2eb4d9f5-5a69-453a-9d6a-01d95a55b327 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57219 - "OPTIONS /api/applications/2eb4d9f5-5a69-453a-9d6a-01d95a55b327/metrics HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57213 - "OPTIONS /api/applications/2eb4d9f5-5a69-453a-9d6a-01d95a55b327/api-keys HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57215 - "OPTIONS /api/applications/2eb4d9f5-5a69-453a-9d6a-01d95a55b327/detections HTTP/1.1" 200 OK
+Creating database session
+Database session created
+Creating database session
+Database session created
+Creating database session
+Database session created
+Creating database session
+Database session created
+2026-06-15 15:08:31,764 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-06-15 15:08:31,764 INFO sqlalchemy.engine.Engine SELECT users.id AS users_id, users.email AS users_email, users.name AS users_name, users.password_hash AS users_password_hash, users.tier AS users_tier, users.is_active AS users_is_active, users.is_verified AS users_is_verified, users.failed_login_attempts AS users_failed_login_attempts, users.locked_until AS users_locked_until, users.created_at AS users_created_at, users.updated_at AS users_updated_at 
+FROM users 
+WHERE users.id = ?
+ LIMIT ? OFFSET ?
+2026-06-15 15:08:31,764 INFO sqlalchemy.engine.Engine [cached since 2.726s ago] ('e2b277b9-f3d9-4a1e-b1b7-d4fe4bbc3f37', 1, 0)
+2026-06-15 15:08:31,765 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-06-15 15:08:31,765 INFO sqlalchemy.engine.Engine SELECT users.id AS users_id, users.email AS users_email, users.name AS users_name, users.password_hash AS users_password_hash, users.tier AS users_tier, users.is_active AS users_is_active, users.is_verified AS users_is_verified, users.failed_login_attempts AS users_failed_login_attempts, users.locked_until AS users_locked_until, users.created_at AS users_created_at, users.updated_at AS users_updated_at 
+FROM users 
+WHERE users.id = ?
+ LIMIT ? OFFSET ?
+2026-06-15 15:08:31,765 INFO sqlalchemy.engine.Engine [cached since 2.727s ago] ('e2b277b9-f3d9-4a1e-b1b7-d4fe4bbc3f37', 1, 0)
+2026-06-15 15:08:31,765 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-06-15 15:08:31,765 INFO sqlalchemy.engine.Engine SELECT users.id AS users_id, users.email AS users_email, users.name AS users_name, users.password_hash AS users_password_hash, users.tier AS users_tier, users.is_active AS users_is_active, users.is_verified AS users_is_verified, users.failed_login_attempts AS users_failed_login_attempts, users.locked_until AS users_locked_until, users.created_at AS users_created_at, users.updated_at AS users_updated_at 
+FROM users 
+WHERE users.id = ?
+ LIMIT ? OFFSET ?
+2026-06-15 15:08:31,765 INFO sqlalchemy.engine.Engine [cached since 2.728s ago] ('e2b277b9-f3d9-4a1e-b1b7-d4fe4bbc3f37', 1, 0)
+2026-06-15 15:08:31,766 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-06-15 15:08:31,766 INFO sqlalchemy.engine.Engine SELECT users.id AS users_id, users.email AS users_email, users.name AS users_name, users.password_hash AS users_password_hash, users.tier AS users_tier, users.is_active AS users_is_active, users.is_verified AS users_is_verified, users.failed_login_attempts AS users_failed_login_attempts, users.locked_until AS users_locked_until, users.created_at AS users_created_at, users.updated_at AS users_updated_at 
+FROM users 
+WHERE users.id = ?
+ LIMIT ? OFFSET ?
+2026-06-15 15:08:31,766 INFO sqlalchemy.engine.Engine [cached since 2.728s ago] ('e2b277b9-f3d9-4a1e-b1b7-d4fe4bbc3f37', 1, 0)
+2026-06-15 15:08:31,767 INFO sqlalchemy.engine.Engine SELECT organization_users.id AS organization_users_id, organization_users.organization_id AS organization_users_organization_id, organization_users.user_id AS organization_users_user_id, organization_users.role AS organization_users_role 
+FROM organization_users 
+WHERE organization_users.user_id = ?
+ LIMIT ? OFFSET ?
+2026-06-15 15:08:31,767 INFO sqlalchemy.engine.Engine SELECT organization_users.id AS organization_users_id, organization_users.organization_id AS organization_users_organization_id, organization_users.user_id AS organization_users_user_id, organization_users.role AS organization_users_role 
+FROM organization_users 
+WHERE organization_users.user_id = ?
+ LIMIT ? OFFSET ?
+2026-06-15 15:08:31,767 INFO sqlalchemy.engine.Engine SELECT organization_users.id AS organization_users_id, organization_users.organization_id AS organization_users_organization_id, organization_users.user_id AS organization_users_user_id, organization_users.role AS organization_users_role 
+FROM organization_users 
+WHERE organization_users.user_id = ?
+ LIMIT ? OFFSET ?
+2026-06-15 15:08:31,768 INFO sqlalchemy.engine.Engine SELECT organization_users.id AS organization_users_id, organization_users.organization_id AS organization_users_organization_id, organization_users.user_id AS organization_users_user_id, organization_users.role AS organization_users_role 
+FROM organization_users 
+WHERE organization_users.user_id = ?
+ LIMIT ? OFFSET ?
+2026-06-15 15:08:31,768 INFO sqlalchemy.engine.Engine [cached since 2.726s ago] ('e2b277b9-f3d9-4a1e-b1b7-d4fe4bbc3f37', 1, 0)
+2026-06-15 15:08:31,768 INFO sqlalchemy.engine.Engine [cached since 2.726s ago] ('e2b277b9-f3d9-4a1e-b1b7-d4fe4bbc3f37', 1, 0)
+2026-06-15 15:08:31,768 INFO sqlalchemy.engine.Engine [cached since 2.726s ago] ('e2b277b9-f3d9-4a1e-b1b7-d4fe4bbc3f37', 1, 0)
+2026-06-15 15:08:31,768 INFO sqlalchemy.engine.Engine [cached since 2.726s ago] ('e2b277b9-f3d9-4a1e-b1b7-d4fe4bbc3f37', 1, 0)
+2026-06-15 15:08:31,769 INFO sqlalchemy.engine.Engine SELECT applications.id AS applications_id, applications.user_id AS applications_user_id, applications.organization_id AS applications_organization_id, applications.name AS applications_name, applications.description AS applications_description, applications.environment AS applications_environment, applications.provider AS applications_provider, applications.is_active AS applications_is_active, applications.created_at AS applications_created_at, applications.updated_at AS applications_updated_at 
+FROM applications 
+WHERE applications.id = ? AND applications.user_id = ? AND applications.organization_id = ?
+ LIMIT ? OFFSET ?
+2026-06-15 15:08:31,769 INFO sqlalchemy.engine.Engine [generated in 0.00041s] ('2eb4d9f5-5a69-453a-9d6a-01d95a55b327', 'e2b277b9-f3d9-4a1e-b1b7-d4fe4bbc3f37', 'eb12bc0e851b31f47137e80d3fa3ce42', 1, 0)
+2026-06-15 15:08:31,770 INFO sqlalchemy.engine.Engine SELECT api_keys.id AS api_keys_id, api_keys.user_id AS api_keys_user_id, api_keys.organization_id AS api_keys_organization_id, api_keys.application_id AS api_keys_application_id, api_keys.name AS api_keys_name, api_keys.key_hash AS api_keys_key_hash, api_keys.prefix AS api_keys_prefix, api_keys.is_active AS api_keys_is_active, api_keys.created_at AS api_keys_created_at, api_keys.last_used_at AS api_keys_last_used_at 
+FROM api_keys 
+WHERE api_keys.application_id = ? AND api_keys.organization_id = ?
+2026-06-15 15:08:31,770 INFO sqlalchemy.engine.Engine [generated in 0.00011s] ('2eb4d9f5-5a69-453a-9d6a-01d95a55b327', 'eb12bc0e851b31f47137e80d3fa3ce42')
+2026-06-15 15:08:31,771 INFO sqlalchemy.engine.Engine SELECT applications.id AS applications_id, applications.user_id AS applications_user_id, applications.organization_id AS applications_organization_id, applications.name AS applications_name, applications.description AS applications_description, applications.environment AS applications_environment, applications.provider AS applications_provider, applications.is_active AS applications_is_active, applications.created_at AS applications_created_at, applications.updated_at AS applications_updated_at 
+FROM applications 
+WHERE applications.id = ? AND applications.user_id = ? AND applications.organization_id = ?
+ LIMIT ? OFFSET ?
+2026-06-15 15:08:31,771 INFO sqlalchemy.engine.Engine [cached since 0.002324s ago] ('2eb4d9f5-5a69-453a-9d6a-01d95a55b327', 'e2b277b9-f3d9-4a1e-b1b7-d4fe4bbc3f37', 'eb12bc0e851b31f47137e80d3fa3ce42', 1, 0)
+2026-06-15 15:08:31,772 INFO sqlalchemy.engine.Engine SELECT detections.id AS detections_id, detections.user_id AS detections_user_id, detections.organization_id AS detections_organization_id, detections.application_id AS detections_application_id, detections.prompt AS detections_prompt, detections.risk_score AS detections_risk_score, detections.risk_level AS detections_risk_level, detections.detected_patterns AS detections_detected_patterns, detections.processing_time_ms AS detections_processing_time_ms, detections.source AS detections_source, detections.created_at AS detections_created_at 
+FROM detections 
+WHERE detections.application_id = ? AND detections.organization_id = ? ORDER BY detections.created_at DESC
+ LIMIT ? OFFSET ?
+2026-06-15 15:08:31,772 INFO sqlalchemy.engine.Engine [generated in 0.00010s] ('2eb4d9f5-5a69-453a-9d6a-01d95a55b327', 'eb12bc0e851b31f47137e80d3fa3ce42', 20, 0)
+2026-06-15 15:08:31,772 INFO sqlalchemy.engine.Engine SELECT applications.id AS applications_id, applications.user_id AS applications_user_id, applications.organization_id AS applications_organization_id, applications.name AS applications_name, applications.description AS applications_description, applications.environment AS applications_environment, applications.provider AS applications_provider, applications.is_active AS applications_is_active, applications.created_at AS applications_created_at, applications.updated_at AS applications_updated_at 
+FROM applications 
+WHERE applications.id = ? AND applications.user_id = ? AND applications.organization_id = ?
+ LIMIT ? OFFSET ?
+2026-06-15 15:08:31,772 INFO sqlalchemy.engine.Engine [cached since 0.003645s ago] ('2eb4d9f5-5a69-453a-9d6a-01d95a55b327', 'e2b277b9-f3d9-4a1e-b1b7-d4fe4bbc3f37', 'eb12bc0e851b31f47137e80d3fa3ce42', 1, 0)
+2026-06-15 15:08:31,773 INFO sqlalchemy.engine.Engine SELECT usage_metrics.id AS usage_metrics_id, usage_metrics.application_id AS usage_metrics_application_id, usage_metrics.organization_id AS usage_metrics_organization_id, usage_metrics.total_requests AS usage_metrics_total_requests, usage_metrics.blocked_requests AS usage_metrics_blocked_requests, usage_metrics.last_request_at AS usage_metrics_last_request_at, usage_metrics.created_at AS usage_metrics_created_at 
+FROM usage_metrics 
+WHERE usage_metrics.application_id = ? AND usage_metrics.organization_id = ?
+ LIMIT ? OFFSET ?
+2026-06-15 15:08:31,773 INFO sqlalchemy.engine.Engine [generated in 0.00009s] ('2eb4d9f5-5a69-453a-9d6a-01d95a55b327', 'eb12bc0e851b31f47137e80d3fa3ce42', 1, 0)
+2026-06-15 15:08:31,774 INFO sqlalchemy.engine.Engine SELECT applications.id AS applications_id, applications.user_id AS applications_user_id, applications.organization_id AS applications_organization_id, applications.name AS applications_name, applications.description AS applications_description, applications.environment AS applications_environment, applications.provider AS applications_provider, applications.is_active AS applications_is_active, applications.created_at AS applications_created_at, applications.updated_at AS applications_updated_at 
+FROM applications 
+WHERE applications.id = ? AND applications.user_id = ? AND applications.organization_id = ?
+ LIMIT ? OFFSET ?
+2026-06-15 15:08:31,774 INFO sqlalchemy.engine.Engine [cached since 0.004975s ago] ('2eb4d9f5-5a69-453a-9d6a-01d95a55b327', 'e2b277b9-f3d9-4a1e-b1b7-d4fe4bbc3f37', 'eb12bc0e851b31f47137e80d3fa3ce42', 1, 0)
+Closing database session
+2026-06-15 15:08:31,774 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:57219 - "GET /api/applications/2eb4d9f5-5a69-453a-9d6a-01d95a55b327/api-keys HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57211 - "GET /api/applications/2eb4d9f5-5a69-453a-9d6a-01d95a55b327/detections HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57210 - "GET /api/applications/2eb4d9f5-5a69-453a-9d6a-01d95a55b327 HTTP/1.1" 200 OK
+Closing database session
+2026-06-15 15:08:31,775 INFO sqlalchemy.engine.Engine ROLLBACK
+Closing database session
+2026-06-15 15:08:31,776 INFO sqlalchemy.engine.Engine ROLLBACK
+Closing database session
+2026-06-15 15:08:31,776 INFO sqlalchemy.engine.Engine ROLLBACK
+Creating database session
+Database session created
+INFO:     127.0.0.1:57218 - "GET /api/applications/2eb4d9f5-5a69-453a-9d6a-01d95a55b327/metrics HTTP/1.1" 500 Internal Server Error
+ERROR:    Exception in ASGI application
+Traceback (most recent call last):
+  File "/Users/shubhamchhapolika/promptshield/backend/venv/lib/python3.11/site-packages/sqlalchemy/engine/base.py", line 1969, in _exec_single_context
+    self.dialect.do_execute(
+  File "/Users/shubhamchhapolika/promptshield/backend/venv/lib/python3.11/site-packages/sqlalchemy/engine/default.py", line 922, in do_execute
+    cursor.execute(statement, parameters)
+sqlite3.OperationalError: no such column: usage_metrics.created_at
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/Users/shubhamchhapolika/promptshield/backend/venv/lib/python3.11/site-packages/uvicorn/protocols/http/httptools_impl.py", line 426, in run_asgi
+    result = await app(  # type: ignore[func-returns-value]
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/shubhamchhapolika/promptshield/backend/venv/lib/python3.11/site-packages/uvicorn/middleware/proxy_headers.py", line 84, in __call__
+    return await self.app(scope, receive, send)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/shubhamchhapolika/promptshield/backend/venv/lib/python3.11/site-packages/fastapi/applications.py", line 1115, in __call__
+    await super().__call__(scope, receive, send)
+  File "/Users/shubhamchhapolika/promptshield/backend/venv/lib/python3.11/site-packages/starlette/applications.py", line 122, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/Users/shubhamchhapolika/promptshield/backend/venv/lib/python3.11/site-packages/starlette/middleware/errors.py", line 184, in __call__
+    raise exc
+  File "/Users/shubhamchhapolika/promptshield/backend/venv/lib/python3.11/site-packages/starlette/middleware/errors.py", line 162, in __call__
+    await self.app(scope, receive, _send)
+  File "/Users/shubhamchhapolika/promptshield/backend/venv/lib/python3.11/site-packages/prometheus_fastapi_instrumentator/middleware.py", line 169, in __call__
+    raise exc
+  File "/Users/shubhamchhapolika/promptshield/backend/venv/lib/python3.11/site-packages/prometheus_fastapi_instrumentator/middleware.py", line 167, in __call__
+    await self.app(scope, receive, send_wrapper)
+  File "/Users/shubhamchhapolika/promptshield/backend/venv/lib/python3.11/site-packages/starlette/middleware/trustedhost.py", line 51, in __call__
+    await self.app(scope, receive, send)
+  File "/Users/shubhamchhapolika/promptshield/backend/venv/lib/python3.11/site-packages/starlette/middleware/cors.py", line 91, in __call__
+    await self.simple_response(scope, receive, send, request_headers=headers)
+  File "/Users/shubhamchhapolika/promptshield/backend/venv/lib/python3.11/site-packages/starlette/middleware/cors.py", line 146, in simple_response
+    await self.app(scope, receive, send)
+  File "/Users/shubhamchhapolika/promptshield/backend/venv/lib/python3.11/site-packages/starlette/middleware/base.py", line 108, in __call__
+    response = await self.dispatch_func(request, call_next)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/shubhamchhapolika/promptshield/backend/app/main.py", line 58, in dispatch
+    response: Response = await call_next(request)
+                         ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/shubhamchhapolika/promptshield/backend/venv/lib/python3.11/site-packages/starlette/middleware/base.py", line 84, in call_next
+    raise app_exc
+  File "/Users/shubhamchhapolika/promptshield/backend/venv/lib/python3.11/site-packages/starlette/middleware/base.py", line 70, in coro
+    await self.app(scope, receive_or_disconnect, send_no_error)
+  File "/Users/shubhamchhapolika/promptshield/backend/venv/lib/python3.11/site-packages/starlette/middleware/base.py", line 108, in __call__
+    response = await self.dispatch_func(request, call_next)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/shubhamchhapolika/promptshield/backend/app/main.py", line 33, in dispatch
+    response: Response = await call_next(request)
+                         ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/shubhamchhapolika/promptshield/backend/venv/lib/python3.11/site-packages/starlette/middleware/base.py", line 84, in call_next
+    raise app_exc
+  File "/Users/shubhamchhapolika/promptshield/backend/venv/lib/python3.11/site-packages/starlette/middleware/base.py", line 70, in coro
+    await self.app(scope, receive_or_disconnect, send_no_error)
+  File "/Users/shubhamchhapolika/promptshield/backend/venv/lib/python3.11/site-packages/starlette/middleware/exceptions.py", line 79, in __call__
+    raise exc
+  File "/Users/shubhamchhapolika/promptshield/backend/venv/lib/python3.11/site-packages/starlette/middleware/exceptions.py", line 68, in __call__
+    await self.app(scope, receive, sender)
+  File "/Users/shubhamchhapolika/promptshield/backend/venv/lib/python3.11/site-packages/fastapi/middleware/asyncexitstack.py", line 20, in __call__
+    raise e
+  File "/Users/shubhamchhapolika/promptshield/backend/venv/lib/python3.11/site-packages/fastapi/middleware/asyncexitstack.py", line 17, in __call__
+    await self.app(scope, receive, send)
+  File "/Users/shubhamchhapolika/promptshield/backend/venv/lib/python3.11/site-packages/starlette/routing.py", line 718, in __call__
+    await route.handle(scope, receive, send)
+  File "/Users/shubhamchhapolika/promptshield/backend/venv/lib/python3.11/site-packages/starlette/routing.py", line 276, in handle
+    await self.app(scope, receive, send)
+  File "/Users/shubhamchhapolika/promptshield/backend/venv/lib/python3.11/site-packages/starlette/routing.py", line 66, in app
+    response = await func(request)
+               ^^^^^^^^^^^^^^^^^^^
+  File "/Users/shubhamchhapolika/promptshield/backend/venv/lib/python3.11/site-packages/fastapi/routing.py", line 274, in app
+    raw_response = await run_endpoint_function(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/shubhamchhapolika/promptshield/backend/venv/lib/python3.11/site-packages/fastapi/routing.py", line 191, in run_endpoint_function
+    return await dependant.call(**values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/shubhamchhapolika/promptshield/backend/app/api/applications.py", line 423, in get_metrics
+    .first()
+     ^^^^^^^
+  File "/Users/shubhamchhapolika/promptshield/backend/venv/lib/python3.11/site-packages/sqlalchemy/orm/query.py", line 2748, in first
+    return self.limit(1)._iter().first()  # type: ignore
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/shubhamchhapolika/promptshield/backend/venv/lib/python3.11/site-packages/sqlalchemy/orm/query.py", line 2847, in _iter
+    result: Union[ScalarResult[_T], Result[_T]] = self.session.execute(
+                                                  ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/shubhamchhapolika/promptshield/backend/venv/lib/python3.11/site-packages/sqlalchemy/orm/session.py", line 2308, in execute
+    return self._execute_internal(
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/shubhamchhapolika/promptshield/backend/venv/lib/python3.11/site-packages/sqlalchemy/orm/session.py", line 2190, in _execute_internal
+    result: Result[Any] = compile_state_cls.orm_execute_statement(
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/shubhamchhapolika/promptshield/backend/venv/lib/python3.11/site-packages/sqlalchemy/orm/context.py", line 293, in orm_execute_statement
+    result = conn.execute(
+             ^^^^^^^^^^^^^
+  File "/Users/shubhamchhapolika/promptshield/backend/venv/lib/python3.11/site-packages/sqlalchemy/engine/base.py", line 1416, in execute
+    return meth(
+           ^^^^^
+  File "/Users/shubhamchhapolika/promptshield/backend/venv/lib/python3.11/site-packages/sqlalchemy/sql/elements.py", line 516, in _execute_on_connection
+    return connection._execute_clauseelement(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/shubhamchhapolika/promptshield/backend/venv/lib/python3.11/site-packages/sqlalchemy/engine/base.py", line 1639, in _execute_clauseelement
+    ret = self._execute_context(
+          ^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/shubhamchhapolika/promptshield/backend/venv/lib/python3.11/site-packages/sqlalchemy/engine/base.py", line 1848, in _execute_context
+    return self._exec_single_context(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/shubhamchhapolika/promptshield/backend/venv/lib/python3.11/site-packages/sqlalchemy/engine/base.py", line 1988, in _exec_single_context
+    self._handle_dbapi_exception(
+  File "/Users/shubhamchhapolika/promptshield/backend/venv/lib/python3.11/site-packages/sqlalchemy/engine/base.py", line 2343, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "/Users/shubhamchhapolika/promptshield/backend/venv/lib/python3.11/site-packages/sqlalchemy/engine/base.py", line 1969, in _exec_single_context
+    self.dialect.do_execute(
+  File "/Users/shubhamchhapolika/promptshield/backend/venv/lib/python3.11/site-packages/sqlalchemy/engine/default.py", line 922, in do_execute
+    cursor.execute(statement, parameters)
+sqlalchemy.exc.OperationalError: (sqlite3.OperationalError) no such column: usage_metrics.created_at
+[SQL: SELECT usage_metrics.id AS usage_metrics_id, usage_metrics.application_id AS usage_metrics_application_id, usage_metrics.organization_id AS usage_metrics_organization_id, usage_metrics.total_requests AS usage_metrics_total_requests, usage_metrics.blocked_requests AS usage_metrics_blocked_requests, usage_metrics.last_request_at AS usage_metrics_last_request_at, usage_metrics.created_at AS usage_metrics_created_at 
+FROM usage_metrics 
+WHERE usage_metrics.application_id = ? AND usage_metrics.organization_id = ?
+ LIMIT ? OFFSET ?]
+[parameters: ('2eb4d9f5-5a69-453a-9d6a-01d95a55b327', 'eb12bc0e851b31f47137e80d3fa3ce42', 1, 0)]
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+2026-06-15 15:08:31,787 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+Creating database session
+Database session created
+2026-06-15 15:08:31,787 INFO sqlalchemy.engine.Engine SELECT users.id AS users_id, users.email AS users_email, users.name AS users_name, users.password_hash AS users_password_hash, users.tier AS users_tier, users.is_active AS users_is_active, users.is_verified AS users_is_verified, users.failed_login_attempts AS users_failed_login_attempts, users.locked_until AS users_locked_until, users.created_at AS users_created_at, users.updated_at AS users_updated_at 
+FROM users 
+WHERE users.id = ?
+ LIMIT ? OFFSET ?
+2026-06-15 15:08:31,787 INFO sqlalchemy.engine.Engine [cached since 2.75s ago] ('e2b277b9-f3d9-4a1e-b1b7-d4fe4bbc3f37', 1, 0)
+2026-06-15 15:08:31,788 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-06-15 15:08:31,788 INFO sqlalchemy.engine.Engine SELECT users.id AS users_id, users.email AS users_email, users.name AS users_name, users.password_hash AS users_password_hash, users.tier AS users_tier, users.is_active AS users_is_active, users.is_verified AS users_is_verified, users.failed_login_attempts AS users_failed_login_attempts, users.locked_until AS users_locked_until, users.created_at AS users_created_at, users.updated_at AS users_updated_at 
+FROM users 
+WHERE users.id = ?
+ LIMIT ? OFFSET ?
+2026-06-15 15:08:31,788 INFO sqlalchemy.engine.Engine [cached since 2.75s ago] ('e2b277b9-f3d9-4a1e-b1b7-d4fe4bbc3f37', 1, 0)
+2026-06-15 15:08:31,788 INFO sqlalchemy.engine.Engine SELECT organization_users.id AS organization_users_id, organization_users.organization_id AS organization_users_organization_id, organization_users.user_id AS organization_users_user_id, organization_users.role AS organization_users_role 
+FROM organization_users 
+WHERE organization_users.user_id = ?
+ LIMIT ? OFFSET ?
+2026-06-15 15:08:31,788 INFO sqlalchemy.engine.Engine [cached since 2.747s ago] ('e2b277b9-f3d9-4a1e-b1b7-d4fe4bbc3f37', 1, 0)
+2026-06-15 15:08:31,789 INFO sqlalchemy.engine.Engine SELECT applications.id AS applications_id, applications.user_id AS applications_user_id, applications.organization_id AS applications_organization_id, applications.name AS applications_name, applications.description AS applications_description, applications.environment AS applications_environment, applications.provider AS applications_provider, applications.is_active AS applications_is_active, applications.created_at AS applications_created_at, applications.updated_at AS applications_updated_at 
+FROM applications 
+WHERE applications.id = ? AND applications.user_id = ? AND applications.organization_id = ?
+ LIMIT ? OFFSET ?
+2026-06-15 15:08:31,789 INFO sqlalchemy.engine.Engine [cached since 0.01996s ago] ('2eb4d9f5-5a69-453a-9d6a-01d95a55b327', 'e2b277b9-f3d9-4a1e-b1b7-d4fe4bbc3f37', 'eb12bc0e851b31f47137e80d3fa3ce42', 1, 0)
+2026-06-15 15:08:31,789 INFO sqlalchemy.engine.Engine SELECT organization_users.id AS organization_users_id, organization_users.organization_id AS organization_users_organization_id, organization_users.user_id AS organization_users_user_id, organization_users.role AS organization_users_role 
+FROM organization_users 
+WHERE organization_users.user_id = ?
+ LIMIT ? OFFSET ?
+2026-06-15 15:08:31,789 INFO sqlalchemy.engine.Engine [cached since 2.748s ago] ('e2b277b9-f3d9-4a1e-b1b7-d4fe4bbc3f37', 1, 0)
+2026-06-15 15:08:31,789 INFO sqlalchemy.engine.Engine SELECT api_keys.id AS api_keys_id, api_keys.user_id AS api_keys_user_id, api_keys.organization_id AS api_keys_organization_id, api_keys.application_id AS api_keys_application_id, api_keys.name AS api_keys_name, api_keys.key_hash AS api_keys_key_hash, api_keys.prefix AS api_keys_prefix, api_keys.is_active AS api_keys_is_active, api_keys.created_at AS api_keys_created_at, api_keys.last_used_at AS api_keys_last_used_at 
+FROM api_keys 
+WHERE api_keys.application_id = ? AND api_keys.organization_id = ?
+2026-06-15 15:08:31,789 INFO sqlalchemy.engine.Engine [cached since 0.01907s ago] ('2eb4d9f5-5a69-453a-9d6a-01d95a55b327', 'eb12bc0e851b31f47137e80d3fa3ce42')
+2026-06-15 15:08:31,790 INFO sqlalchemy.engine.Engine SELECT applications.id AS applications_id, applications.user_id AS applications_user_id, applications.organization_id AS applications_organization_id, applications.name AS applications_name, applications.description AS applications_description, applications.environment AS applications_environment, applications.provider AS applications_provider, applications.is_active AS applications_is_active, applications.created_at AS applications_created_at, applications.updated_at AS applications_updated_at 
+FROM applications 
+WHERE applications.id = ? AND applications.user_id = ? AND applications.organization_id = ?
+ LIMIT ? OFFSET ?
+2026-06-15 15:08:31,790 INFO sqlalchemy.engine.Engine [cached since 0.02124s ago] ('2eb4d9f5-5a69-453a-9d6a-01d95a55b327', 'e2b277b9-f3d9-4a1e-b1b7-d4fe4bbc3f37', 'eb12bc0e851b31f47137e80d3fa3ce42', 1, 0)
+2026-06-15 15:08:31,790 INFO sqlalchemy.engine.Engine SELECT detections.id AS detections_id, detections.user_id AS detections_user_id, detections.organization_id AS detections_organization_id, detections.application_id AS detections_application_id, detections.prompt AS detections_prompt, detections.risk_score AS detections_risk_score, detections.risk_level AS detections_risk_level, detections.detected_patterns AS detections_detected_patterns, detections.processing_time_ms AS detections_processing_time_ms, detections.source AS detections_source, detections.created_at AS detections_created_at 
+FROM detections 
+WHERE detections.application_id = ? AND detections.organization_id = ? ORDER BY detections.created_at DESC
+ LIMIT ? OFFSET ?
+2026-06-15 15:08:31,790 INFO sqlalchemy.engine.Engine [cached since 0.01847s ago] ('2eb4d9f5-5a69-453a-9d6a-01d95a55b327', 'eb12bc0e851b31f47137e80d3fa3ce42', 20, 0)
+Creating database session
+Database session created
+INFO:     127.0.0.1:57215 - "GET /api/applications/2eb4d9f5-5a69-453a-9d6a-01d95a55b327/api-keys HTTP/1.1" 200 OK
+2026-06-15 15:08:31,792 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-06-15 15:08:31,792 INFO sqlalchemy.engine.Engine SELECT users.id AS users_id, users.email AS users_email, users.name AS users_name, users.password_hash AS users_password_hash, users.tier AS users_tier, users.is_active AS users_is_active, users.is_verified AS users_is_verified, users.failed_login_attempts AS users_failed_login_attempts, users.locked_until AS users_locked_until, users.created_at AS users_created_at, users.updated_at AS users_updated_at 
+FROM users 
+WHERE users.id = ?
+ LIMIT ? OFFSET ?
+2026-06-15 15:08:31,792 INFO sqlalchemy.engine.Engine [cached since 2.754s ago] ('e2b277b9-f3d9-4a1e-b1b7-d4fe4bbc3f37', 1, 0)
+Creating database session
+Database session created
+INFO:     127.0.0.1:57213 - "GET /api/applications/2eb4d9f5-5a69-453a-9d6a-01d95a55b327/detections HTTP/1.1" 200 OK
+Closing database session
+2026-06-15 15:08:31,793 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-06-15 15:08:31,793 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-06-15 15:08:31,793 INFO sqlalchemy.engine.Engine SELECT users.id AS users_id, users.email AS users_email, users.name AS users_name, users.password_hash AS users_password_hash, users.tier AS users_tier, users.is_active AS users_is_active, users.is_verified AS users_is_verified, users.failed_login_attempts AS users_failed_login_attempts, users.locked_until AS users_locked_until, users.created_at AS users_created_at, users.updated_at AS users_updated_at 
+FROM users 
+WHERE users.id = ?
+ LIMIT ? OFFSET ?
+2026-06-15 15:08:31,793 INFO sqlalchemy.engine.Engine [cached since 2.755s ago] ('e2b277b9-f3d9-4a1e-b1b7-d4fe4bbc3f37', 1, 0)
+2026-06-15 15:08:31,793 INFO sqlalchemy.engine.Engine SELECT organization_users.id AS organization_users_id, organization_users.organization_id AS organization_users_organization_id, organization_users.user_id AS organization_users_user_id, organization_users.role AS organization_users_role 
+FROM organization_users 
+WHERE organization_users.user_id = ?
+ LIMIT ? OFFSET ?
+2026-06-15 15:08:31,793 INFO sqlalchemy.engine.Engine [cached since 2.752s ago] ('e2b277b9-f3d9-4a1e-b1b7-d4fe4bbc3f37', 1, 0)
+Closing database session
+2026-06-15 15:08:31,793 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-06-15 15:08:31,794 INFO sqlalchemy.engine.Engine SELECT applications.id AS applications_id, applications.user_id AS applications_user_id, applications.organization_id AS applications_organization_id, applications.name AS applications_name, applications.description AS applications_description, applications.environment AS applications_environment, applications.provider AS applications_provider, applications.is_active AS applications_is_active, applications.created_at AS applications_created_at, applications.updated_at AS applications_updated_at 
+FROM applications 
+WHERE applications.id = ? AND applications.user_id = ? AND applications.organization_id = ?
+ LIMIT ? OFFSET ?
+2026-06-15 15:08:31,794 INFO sqlalchemy.engine.Engine [cached since 0.02491s ago] ('2eb4d9f5-5a69-453a-9d6a-01d95a55b327', 'e2b277b9-f3d9-4a1e-b1b7-d4fe4bbc3f37', 'eb12bc0e851b31f47137e80d3fa3ce42', 1, 0)
+2026-06-15 15:08:31,794 INFO sqlalchemy.engine.Engine SELECT organization_users.id AS organization_users_id, organization_users.organization_id AS organization_users_organization_id, organization_users.user_id AS organization_users_user_id, organization_users.role AS organization_users_role 
+FROM organization_users 
+WHERE organization_users.user_id = ?
+ LIMIT ? OFFSET ?
+2026-06-15 15:08:31,794 INFO sqlalchemy.engine.Engine [cached since 2.753s ago] ('e2b277b9-f3d9-4a1e-b1b7-d4fe4bbc3f37', 1, 0)
+2026-06-15 15:08:31,795 INFO sqlalchemy.engine.Engine SELECT applications.id AS applications_id, applications.user_id AS applications_user_id, applications.organization_id AS applications_organization_id, applications.name AS applications_name, applications.description AS applications_description, applications.environment AS applications_environment, applications.provider AS applications_provider, applications.is_active AS applications_is_active, applications.created_at AS applications_created_at, applications.updated_at AS applications_updated_at 
+FROM applications 
+WHERE applications.id = ? AND applications.user_id = ? AND applications.organization_id = ?
+ LIMIT ? OFFSET ?
+2026-06-15 15:08:31,795 INFO sqlalchemy.engine.Engine [cached since 0.02572s ago] ('2eb4d9f5-5a69-453a-9d6a-01d95a55b327', 'e2b277b9-f3d9-4a1e-b1b7-d4fe4bbc3f37', 'eb12bc0e851b31f47137e80d3fa3ce42', 1, 0)
+2026-06-15 15:08:31,795 INFO sqlalchemy.engine.Engine SELECT usage_metrics.id AS usage_metrics_id, usage_metrics.application_id AS usage_metrics_application_id, usage_metrics.organization_id AS usage_metrics_organization_id, usage_metrics.total_requests AS usage_metrics_total_requests, usage_metrics.blocked_requests AS usage_metrics_blocked_requests, usage_metrics.last_request_at AS usage_metrics_last_request_at, usage_metrics.created_at AS usage_metrics_created_at 
+FROM usage_metrics 
+WHERE usage_metrics.application_id = ? AND usage_metrics.organization_id = ?
+ LIMIT ? OFFSET ?
+2026-06-15 15:08:31,795 INFO sqlalchemy.engine.Engine [cached since 0.02143s ago] ('2eb4d9f5-5a69-453a-9d6a-01d95a55b327', 'eb12bc0e851b31f47137e80d3fa3ce42', 1, 0)
+Closing database session
+2026-06-15 15:08:31,795 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:57219 - "GET /api/applications/2eb4d9f5-5a69-453a-9d6a-01d95a55b327 HTTP/1.1" 200 OK
+Closing database session
+2026-06-15 15:08:31,796 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:57211 - "GET /api/applications/2eb4d9f5-5a69-453a-9d6a-01d95a55b327/metrics HTTP/1.1" 500 Internal Server Error
+ERROR:    Exception in ASGI application
+Traceback (most recent call last):
+  File "/Users/shubhamchhapolika/promptshield/backend/venv/lib/python3.11/site-packages/sqlalchemy/engine/base.py", line 1969, in _exec_single_context
+    self.dialect.do_execute(
+  File "/Users/shubhamchhapolika/promptshield/backend/venv/lib/python3.11/site-packages/sqlalchemy/engine/default.py", line 922, in do_execute
+    cursor.execute(statement, parameters)
+sqlite3.OperationalError: no such column: usage_metrics.created_at
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/Users/shubhamchhapolika/promptshield/backend/venv/lib/python3.11/site-packages/uvicorn/protocols/http/httptools_impl.py", line 426, in run_asgi
+    result = await app(  # type: ignore[func-returns-value]
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/shubhamchhapolika/promptshield/backend/venv/lib/python3.11/site-packages/uvicorn/middleware/proxy_headers.py", line 84, in __call__
+    return await self.app(scope, receive, send)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/shubhamchhapolika/promptshield/backend/venv/lib/python3.11/site-packages/fastapi/applications.py", line 1115, in __call__
+    await super().__call__(scope, receive, send)
+  File "/Users/shubhamchhapolika/promptshield/backend/venv/lib/python3.11/site-packages/starlette/applications.py", line 122, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/Users/shubhamchhapolika/promptshield/backend/venv/lib/python3.11/site-packages/starlette/middleware/errors.py", line 184, in __call__
+    raise exc
+  File "/Users/shubhamchhapolika/promptshield/backend/venv/lib/python3.11/site-packages/starlette/middleware/errors.py", line 162, in __call__
+    await self.app(scope, receive, _send)
+  File "/Users/shubhamchhapolika/promptshield/backend/venv/lib/python3.11/site-packages/prometheus_fastapi_instrumentator/middleware.py", line 169, in __call__
+    raise exc
+  File "/Users/shubhamchhapolika/promptshield/backend/venv/lib/python3.11/site-packages/prometheus_fastapi_instrumentator/middleware.py", line 167, in __call__
+    await self.app(scope, receive, send_wrapper)
+  File "/Users/shubhamchhapolika/promptshield/backend/venv/lib/python3.11/site-packages/starlette/middleware/trustedhost.py", line 51, in __call__
+    await self.app(scope, receive, send)
+  File "/Users/shubhamchhapolika/promptshield/backend/venv/lib/python3.11/site-packages/starlette/middleware/cors.py", line 91, in __call__
+    await self.simple_response(scope, receive, send, request_headers=headers)
+  File "/Users/shubhamchhapolika/promptshield/backend/venv/lib/python3.11/site-packages/starlette/middleware/cors.py", line 146, in simple_response
+    await self.app(scope, receive, send)
+  File "/Users/shubhamchhapolika/promptshield/backend/venv/lib/python3.11/site-packages/starlette/middleware/base.py", line 108, in __call__
+    response = await self.dispatch_func(request, call_next)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/shubhamchhapolika/promptshield/backend/app/main.py", line 58, in dispatch
+    response: Response = await call_next(request)
+                         ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/shubhamchhapolika/promptshield/backend/venv/lib/python3.11/site-packages/starlette/middleware/base.py", line 84, in call_next
+    raise app_exc
+  File "/Users/shubhamchhapolika/promptshield/backend/venv/lib/python3.11/site-packages/starlette/middleware/base.py", line 70, in coro
+    await self.app(scope, receive_or_disconnect, send_no_error)
+  File "/Users/shubhamchhapolika/promptshield/backend/venv/lib/python3.11/site-packages/starlette/middleware/base.py", line 108, in __call__
+    response = await self.dispatch_func(request, call_next)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/shubhamchhapolika/promptshield/backend/app/main.py", line 33, in dispatch
+    response: Response = await call_next(request)
+                         ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/shubhamchhapolika/promptshield/backend/venv/lib/python3.11/site-packages/starlette/middleware/base.py", line 84, in call_next
+    raise app_exc
+  File "/Users/shubhamchhapolika/promptshield/backend/venv/lib/python3.11/site-packages/starlette/middleware/base.py", line 70, in coro
+    await self.app(scope, receive_or_disconnect, send_no_error)
+  File "/Users/shubhamchhapolika/promptshield/backend/venv/lib/python3.11/site-packages/starlette/middleware/exceptions.py", line 79, in __call__
+    raise exc
+  File "/Users/shubhamchhapolika/promptshield/backend/venv/lib/python3.11/site-packages/starlette/middleware/exceptions.py", line 68, in __call__
+    await self.app(scope, receive, sender)
+  File "/Users/shubhamchhapolika/promptshield/backend/venv/lib/python3.11/site-packages/fastapi/middleware/asyncexitstack.py", line 20, in __call__
+    raise e
+  File "/Users/shubhamchhapolika/promptshield/backend/venv/lib/python3.11/site-packages/fastapi/middleware/asyncexitstack.py", line 17, in __call__
+    await self.app(scope, receive, send)
+  File "/Users/shubhamchhapolika/promptshield/backend/venv/lib/python3.11/site-packages/starlette/routing.py", line 718, in __call__
+    await route.handle(scope, receive, send)
+  File "/Users/shubhamchhapolika/promptshield/backend/venv/lib/python3.11/site-packages/starlette/routing.py", line 276, in handle
+    await self.app(scope, receive, send)
+  File "/Users/shubhamchhapolika/promptshield/backend/venv/lib/python3.11/site-packages/starlette/routing.py", line 66, in app
+    response = await func(request)
+               ^^^^^^^^^^^^^^^^^^^
+  File "/Users/shubhamchhapolika/promptshield/backend/venv/lib/python3.11/site-packages/fastapi/routing.py", line 274, in app
+    raw_response = await run_endpoint_function(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/shubhamchhapolika/promptshield/backend/venv/lib/python3.11/site-packages/fastapi/routing.py", line 191, in run_endpoint_function
+    return await dependant.call(**values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/shubhamchhapolika/promptshield/backend/app/api/applications.py", line 423, in get_metrics
+    .first()
+     ^^^^^^^
+  File "/Users/shubhamchhapolika/promptshield/backend/venv/lib/python3.11/site-packages/sqlalchemy/orm/query.py", line 2748, in first
+    return self.limit(1)._iter().first()  # type: ignore
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/shubhamchhapolika/promptshield/backend/venv/lib/python3.11/site-packages/sqlalchemy/orm/query.py", line 2847, in _iter
+    result: Union[ScalarResult[_T], Result[_T]] = self.session.execute(
+                                                  ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/shubhamchhapolika/promptshield/backend/venv/lib/python3.11/site-packages/sqlalchemy/orm/session.py", line 2308, in execute
+    return self._execute_internal(
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/shubhamchhapolika/promptshield/backend/venv/lib/python3.11/site-packages/sqlalchemy/orm/session.py", line 2190, in _execute_internal
+    result: Result[Any] = compile_state_cls.orm_execute_statement(
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/shubhamchhapolika/promptshield/backend/venv/lib/python3.11/site-packages/sqlalchemy/orm/context.py", line 293, in orm_execute_statement
+    result = conn.execute(
+             ^^^^^^^^^^^^^
+  File "/Users/shubhamchhapolika/promptshield/backend/venv/lib/python3.11/site-packages/sqlalchemy/engine/base.py", line 1416, in execute
+    return meth(
+           ^^^^^
+  File "/Users/shubhamchhapolika/promptshield/backend/venv/lib/python3.11/site-packages/sqlalchemy/sql/elements.py", line 516, in _execute_on_connection
+    return connection._execute_clauseelement(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/shubhamchhapolika/promptshield/backend/venv/lib/python3.11/site-packages/sqlalchemy/engine/base.py", line 1639, in _execute_clauseelement
+    ret = self._execute_context(
+          ^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/shubhamchhapolika/promptshield/backend/venv/lib/python3.11/site-packages/sqlalchemy/engine/base.py", line 1848, in _execute_context
+    return self._exec_single_context(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/shubhamchhapolika/promptshield/backend/venv/lib/python3.11/site-packages/sqlalchemy/engine/base.py", line 1988, in _exec_single_context
+    self._handle_dbapi_exception(
+  File "/Users/shubhamchhapolika/promptshield/backend/venv/lib/python3.11/site-packages/sqlalchemy/engine/base.py", line 2343, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "/Users/shubhamchhapolika/promptshield/backend/venv/lib/python3.11/site-packages/sqlalchemy/engine/base.py", line 1969, in _exec_single_context
+    self.dialect.do_execute(
+  File "/Users/shubhamchhapolika/promptshield/backend/venv/lib/python3.11/site-packages/sqlalchemy/engine/default.py", line 922, in do_execute
+    cursor.execute(statement, parameters)
+sqlalchemy.exc.OperationalError: (sqlite3.OperationalError) no such column: usage_metrics.created_at
+[SQL: SELECT usage_metrics.id AS usage_metrics_id, usage_metrics.application_id AS usage_metrics_application_id, usage_metrics.organization_id AS usage_metrics_organization_id, usage_metrics.total_requests AS usage_metrics_total_requests, usage_metrics.blocked_requests AS usage_metrics_blocked_requests, usage_metrics.last_request_at AS usage_metrics_last_request_at, usage_metrics.created_at AS usage_metrics_created_at 
+FROM usage_metrics 
+WHERE usage_metrics.application_id = ? AND usage_metrics.organization_id = ?
+ LIMIT ? OFFSET ?]
+[parameters: ('2eb4d9f5-5a69-453a-9d6a-01d95a55b327', 'eb12bc0e851b31f47137e80d3fa3ce42', 1, 0)]
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+INFO:     127.0.0.1:57221 - "OPTIONS /api/applications/2eb4d9f5-5a69-453a-9d6a-01d95a55b327/rotate-key HTTP/1.1" 200 OK
+Creating database session
+Database session created
+2026-06-15 15:08:40,077 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-06-15 15:08:40,078 INFO sqlalchemy.engine.Engine SELECT users.id AS users_id, users.email AS users_email, users.name AS users_name, users.password_hash AS users_password_hash, users.tier AS users_tier, users.is_active AS users_is_active, users.is_verified AS users_is_verified, users.failed_login_attempts AS users_failed_login_attempts, users.locked_until AS users_locked_until, users.created_at AS users_created_at, users.updated_at AS users_updated_at 
+FROM users 
+WHERE users.id = ?
+ LIMIT ? OFFSET ?
+2026-06-15 15:08:40,078 INFO sqlalchemy.engine.Engine [cached since 11.04s ago] ('e2b277b9-f3d9-4a1e-b1b7-d4fe4bbc3f37', 1, 0)
+2026-06-15 15:08:40,079 INFO sqlalchemy.engine.Engine SELECT organization_users.id AS organization_users_id, organization_users.organization_id AS organization_users_organization_id, organization_users.user_id AS organization_users_user_id, organization_users.role AS organization_users_role 
+FROM organization_users 
+WHERE organization_users.user_id = ?
+ LIMIT ? OFFSET ?
+2026-06-15 15:08:40,079 INFO sqlalchemy.engine.Engine [cached since 11.04s ago] ('e2b277b9-f3d9-4a1e-b1b7-d4fe4bbc3f37', 1, 0)
+2026-06-15 15:08:40,079 INFO sqlalchemy.engine.Engine SELECT applications.id AS applications_id, applications.user_id AS applications_user_id, applications.organization_id AS applications_organization_id, applications.name AS applications_name, applications.description AS applications_description, applications.environment AS applications_environment, applications.provider AS applications_provider, applications.is_active AS applications_is_active, applications.created_at AS applications_created_at, applications.updated_at AS applications_updated_at 
+FROM applications 
+WHERE applications.id = ? AND applications.user_id = ? AND applications.organization_id = ?
+ LIMIT ? OFFSET ?
+2026-06-15 15:08:40,079 INFO sqlalchemy.engine.Engine [cached since 8.31s ago] ('2eb4d9f5-5a69-453a-9d6a-01d95a55b327', 'e2b277b9-f3d9-4a1e-b1b7-d4fe4bbc3f37', 'eb12bc0e851b31f47137e80d3fa3ce42', 1, 0)
+2026-06-15 15:08:40,081 INFO sqlalchemy.engine.Engine UPDATE api_keys SET is_active=? WHERE api_keys.application_id = ? AND api_keys.organization_id = ?
+2026-06-15 15:08:40,081 INFO sqlalchemy.engine.Engine [generated in 0.00011s] (0, '2eb4d9f5-5a69-453a-9d6a-01d95a55b327', 'eb12bc0e851b31f47137e80d3fa3ce42')
+2026-06-15 15:08:40,083 INFO sqlalchemy.engine.Engine INSERT INTO api_keys (id, user_id, organization_id, application_id, name, key_hash, prefix, is_active, created_at, last_used_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+2026-06-15 15:08:40,083 INFO sqlalchemy.engine.Engine [generated in 0.00016s] ('cb87ab56-a084-4bb6-9760-f75923eeae5f', 'e2b277b9-f3d9-4a1e-b1b7-d4fe4bbc3f37', 'eb12bc0e851b31f47137e80d3fa3ce42', '2eb4d9f5-5a69-453a-9d6a-01d95a55b327', 'Rotated Key for test', '88fc386c5b03ac835248079a73c9e4e3cc6f99ec722f8fcff5f1222e351d089d', 'ps_fX8Uy...', 1, '2026-06-15 09:38:40.083346', None)
+2026-06-15 15:08:40,083 INFO sqlalchemy.engine.Engine COMMIT
+2026-06-15 15:08:40,086 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-06-15 15:08:40,088 INFO sqlalchemy.engine.Engine SELECT users.id AS users_id, users.email AS users_email, users.name AS users_name, users.password_hash AS users_password_hash, users.tier AS users_tier, users.is_active AS users_is_active, users.is_verified AS users_is_verified, users.failed_login_attempts AS users_failed_login_attempts, users.locked_until AS users_locked_until, users.created_at AS users_created_at, users.updated_at AS users_updated_at 
+FROM users 
+WHERE users.id = ?
+2026-06-15 15:08:40,088 INFO sqlalchemy.engine.Engine [generated in 0.00010s] ('e2b277b9-f3d9-4a1e-b1b7-d4fe4bbc3f37',)
+2026-06-15 15:08:40,089 INFO sqlalchemy.engine.Engine SELECT applications.id AS applications_id, applications.user_id AS applications_user_id, applications.organization_id AS applications_organization_id, applications.name AS applications_name, applications.description AS applications_description, applications.environment AS applications_environment, applications.provider AS applications_provider, applications.is_active AS applications_is_active, applications.created_at AS applications_created_at, applications.updated_at AS applications_updated_at 
+FROM applications 
+WHERE applications.id = ?
+2026-06-15 15:08:40,089 INFO sqlalchemy.engine.Engine [generated in 0.00006s] ('2eb4d9f5-5a69-453a-9d6a-01d95a55b327',)
+2026-06-15 15:08:40,090 INFO sqlalchemy.engine.Engine INSERT INTO audit_logs (id, user_id, organization_id, application_id, action, resource, details, ip_address, user_agent, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+2026-06-15 15:08:40,090 INFO sqlalchemy.engine.Engine [generated in 0.00012s] ('ee2028c4-6133-438f-b72a-919dbad5668f', 'e2b277b9-f3d9-4a1e-b1b7-d4fe4bbc3f37', 'eb12bc0e851b31f47137e80d3fa3ce42', '2eb4d9f5-5a69-453a-9d6a-01d95a55b327', 'API Key Rotated', 'test', 'Generated new API key', None, None, '2026-06-15 09:38:40.089290')
+2026-06-15 15:08:40,090 INFO sqlalchemy.engine.Engine COMMIT
+2026-06-15 15:08:40,091 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-06-15 15:08:40,092 INFO sqlalchemy.engine.Engine SELECT audit_logs.id, audit_logs.user_id, audit_logs.organization_id, audit_logs.application_id, audit_logs.action, audit_logs.resource, audit_logs.details, audit_logs.ip_address, audit_logs.user_agent, audit_logs.created_at 
+FROM audit_logs 
+WHERE audit_logs.id = ?
+2026-06-15 15:08:40,092 INFO sqlalchemy.engine.Engine [generated in 0.00006s] ('ee2028c4-6133-438f-b72a-919dbad5668f',)
+INFO:     127.0.0.1:57221 - "POST /api/applications/2eb4d9f5-5a69-453a-9d6a-01d95a55b327/rotate-key HTTP/1.1" 200 OK
+Closing database session
+2026-06-15 15:08:40,093 INFO sqlalchemy.engine.Engine ROLLBACK
+Creating database session
+Database session created
+2026-06-15 15:08:40,096 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-06-15 15:08:40,096 INFO sqlalchemy.engine.Engine SELECT users.id AS users_id, users.email AS users_email, users.name AS users_name, users.password_hash AS users_password_hash, users.tier AS users_tier, users.is_active AS users_is_active, users.is_verified AS users_is_verified, users.failed_login_attempts AS users_failed_login_attempts, users.locked_until AS users_locked_until, users.created_at AS users_created_at, users.updated_at AS users_updated_at 
+FROM users 
+WHERE users.id = ?
+ LIMIT ? OFFSET ?
+2026-06-15 15:08:40,096 INFO sqlalchemy.engine.Engine [cached since 11.06s ago] ('e2b277b9-f3d9-4a1e-b1b7-d4fe4bbc3f37', 1, 0)
+2026-06-15 15:08:40,097 INFO sqlalchemy.engine.Engine SELECT organization_users.id AS organization_users_id, organization_users.organization_id AS organization_users_organization_id, organization_users.user_id AS organization_users_user_id, organization_users.role AS organization_users_role 
+FROM organization_users 
+WHERE organization_users.user_id = ?
+ LIMIT ? OFFSET ?
+2026-06-15 15:08:40,097 INFO sqlalchemy.engine.Engine [cached since 11.06s ago] ('e2b277b9-f3d9-4a1e-b1b7-d4fe4bbc3f37', 1, 0)
+2026-06-15 15:08:40,097 INFO sqlalchemy.engine.Engine SELECT applications.id AS applications_id, applications.user_id AS applications_user_id, applications.organization_id AS applications_organization_id, applications.name AS applications_name, applications.description AS applications_description, applications.environment AS applications_environment, applications.provider AS applications_provider, applications.is_active AS applications_is_active, applications.created_at AS applications_created_at, applications.updated_at AS applications_updated_at 
+FROM applications 
+WHERE applications.id = ? AND applications.user_id = ? AND applications.organization_id = ?
+ LIMIT ? OFFSET ?
+2026-06-15 15:08:40,097 INFO sqlalchemy.engine.Engine [cached since 8.329s ago] ('2eb4d9f5-5a69-453a-9d6a-01d95a55b327', 'e2b277b9-f3d9-4a1e-b1b7-d4fe4bbc3f37', 'eb12bc0e851b31f47137e80d3fa3ce42', 1, 0)
+2026-06-15 15:08:40,098 INFO sqlalchemy.engine.Engine SELECT api_keys.id AS api_keys_id, api_keys.user_id AS api_keys_user_id, api_keys.organization_id AS api_keys_organization_id, api_keys.application_id AS api_keys_application_id, api_keys.name AS api_keys_name, api_keys.key_hash AS api_keys_key_hash, api_keys.prefix AS api_keys_prefix, api_keys.is_active AS api_keys_is_active, api_keys.created_at AS api_keys_created_at, api_keys.last_used_at AS api_keys_last_used_at 
+FROM api_keys 
+WHERE api_keys.application_id = ? AND api_keys.organization_id = ?
+2026-06-15 15:08:40,098 INFO sqlalchemy.engine.Engine [cached since 8.327s ago] ('2eb4d9f5-5a69-453a-9d6a-01d95a55b327', 'eb12bc0e851b31f47137e80d3fa3ce42')
+INFO:     127.0.0.1:57221 - "GET /api/applications/2eb4d9f5-5a69-453a-9d6a-01d95a55b327/api-keys HTTP/1.1" 200 OK
+Closing database session
+2026-06-15 15:08:40,099 INFO sqlalchemy.engine.Engine ROLLBACK
+Creating database session
+Database session created
+2026-06-15 15:08:53,939 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-06-15 15:08:53,939 INFO sqlalchemy.engine.Engine SELECT users.id AS users_id, users.email AS users_email, users.name AS users_name, users.password_hash AS users_password_hash, users.tier AS users_tier, users.is_active AS users_is_active, users.is_verified AS users_is_verified, users.failed_login_attempts AS users_failed_login_attempts, users.locked_until AS users_locked_until, users.created_at AS users_created_at, users.updated_at AS users_updated_at 
+FROM users 
+WHERE users.email = ?
+ LIMIT ? OFFSET ?
+2026-06-15 15:08:53,939 INFO sqlalchemy.engine.Engine [cached since 40.97s ago] ('test@example.com', 1, 0)
+2026-06-15 15:08:54,111 INFO sqlalchemy.engine.Engine UPDATE users SET failed_login_attempts=?, updated_at=? WHERE users.id = ?
+2026-06-15 15:08:54,111 INFO sqlalchemy.engine.Engine [generated in 0.00011s] (1, '2026-06-15 09:38:54.111565', 'e2b277b9-f3d9-4a1e-b1b7-d4fe4bbc3f37')
+2026-06-15 15:08:54,111 INFO sqlalchemy.engine.Engine COMMIT
+Closing database session
+INFO:     127.0.0.1:57225 - "POST /api/auth/login HTTP/1.1" 401 Unauthorized
+Creating database session
+Database session created
+Signup endpoint called
+2026-06-15 15:09:59,972 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-06-15 15:09:59,972 INFO sqlalchemy.engine.Engine SELECT users.id AS users_id, users.email AS users_email, users.name AS users_name, users.password_hash AS users_password_hash, users.tier AS users_tier, users.is_active AS users_is_active, users.is_verified AS users_is_verified, users.failed_login_attempts AS users_failed_login_attempts, users.locked_until AS users_locked_until, users.created_at AS users_created_at, users.updated_at AS users_updated_at 
+FROM users 
+WHERE users.email = ?
+ LIMIT ? OFFSET ?
+2026-06-15 15:09:59,972 INFO sqlalchemy.engine.Engine [cached since 107s ago] ('test2@example.com', 1, 0)
+About to hash password
+Hashed password: $2b$12$26wMIIrpipxooDr1bHxz9.hyx4eXMr5Z3xx6c2Jbj0AA6NPRoZ7G.
+2026-06-15 15:10:00,143 INFO sqlalchemy.engine.Engine INSERT INTO users (id, email, name, password_hash, tier, is_active, is_verified, failed_login_attempts, locked_until, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+2026-06-15 15:10:00,143 INFO sqlalchemy.engine.Engine [generated in 0.00015s] ('c415231e-2908-40d6-b357-07049d117a10', 'test2@example.com', 'Test User 2', '$2b$12$26wMIIrpipxooDr1bHxz9.hyx4eXMr5Z3xx6c2Jbj0AA6NPRoZ7G.', 'free', 1, 0, 0, None, '2026-06-15 09:40:00.143412', '2026-06-15 09:40:00.143414')
+2026-06-15 15:10:00,145 INFO sqlalchemy.engine.Engine COMMIT
+2026-06-15 15:10:00,147 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-06-15 15:10:00,148 INFO sqlalchemy.engine.Engine SELECT users.id, users.email, users.name, users.password_hash, users.tier, users.is_active, users.is_verified, users.failed_login_attempts, users.locked_until, users.created_at, users.updated_at 
+FROM users 
+WHERE users.id = ?
+2026-06-15 15:10:00,148 INFO sqlalchemy.engine.Engine [generated in 0.00004s] ('c415231e-2908-40d6-b357-07049d117a10',)
+INFO:     127.0.0.1:57233 - "POST /api/auth/signup HTTP/1.1" 200 OK
+Closing database session
+2026-06-15 15:10:00,148 INFO sqlalchemy.engine.Engine ROLLBACK
+Creating database session
+Database session created
+2026-06-15 15:10:50,374 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-06-15 15:10:50,374 INFO sqlalchemy.engine.Engine SELECT users.id AS users_id, users.email AS users_email, users.name AS users_name, users.password_hash AS users_password_hash, users.tier AS users_tier, users.is_active AS users_is_active, users.is_verified AS users_is_verified, users.failed_login_attempts AS users_failed_login_attempts, users.locked_until AS users_locked_until, users.created_at AS users_created_at, users.updated_at AS users_updated_at 
+FROM users 
+WHERE users.email = ?
+ LIMIT ? OFFSET ?
+2026-06-15 15:10:50,374 INFO sqlalchemy.engine.Engine [cached since 157.4s ago] ('test2@example.com', 1, 0)
+INFO:     127.0.0.1:57238 - "POST /api/auth/login HTTP/1.1" 200 OK
+Closing database session
+2026-06-15 15:10:50,546 INFO sqlalchemy.engine.Engine ROLLBACK
+WARNING:  WatchFiles detected changes in 'app/core/security.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [9992]
+2026-06-15 17:35:56,668 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-06-15 17:35:56,668 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("organization_users")
+2026-06-15 17:35:56,668 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 17:35:56,669 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("organizations")
+2026-06-15 17:35:56,669 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 17:35:56,669 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("users")
+2026-06-15 17:35:56,669 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 17:35:56,669 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("applications")
+2026-06-15 17:35:56,669 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 17:35:56,669 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("api_keys")
+2026-06-15 17:35:56,669 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 17:35:56,669 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("detections")
+2026-06-15 17:35:56,669 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 17:35:56,669 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("usage_metrics")
+2026-06-15 17:35:56,669 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 17:35:56,669 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("rules")
+2026-06-15 17:35:56,669 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 17:35:56,669 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("audit_logs")
+2026-06-15 17:35:56,669 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 17:35:56,669 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("token_blacklist")
+2026-06-15 17:35:56,669 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 17:35:56,669 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("plans")
+2026-06-15 17:35:56,669 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 17:35:56,669 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("subscriptions")
+2026-06-15 17:35:56,669 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 17:35:56,669 INFO sqlalchemy.engine.Engine COMMIT
+INFO:     Started server process [14478]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'app/core/security.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [14478]
+2026-06-15 17:36:09,744 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-06-15 17:36:09,744 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("organization_users")
+2026-06-15 17:36:09,745 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 17:36:09,745 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("organizations")
+2026-06-15 17:36:09,745 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 17:36:09,745 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("users")
+2026-06-15 17:36:09,745 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 17:36:09,745 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("applications")
+2026-06-15 17:36:09,745 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 17:36:09,745 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("api_keys")
+2026-06-15 17:36:09,745 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 17:36:09,745 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("detections")
+2026-06-15 17:36:09,745 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 17:36:09,745 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("usage_metrics")
+2026-06-15 17:36:09,745 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 17:36:09,745 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("rules")
+2026-06-15 17:36:09,745 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 17:36:09,745 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("audit_logs")
+2026-06-15 17:36:09,745 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 17:36:09,745 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("token_blacklist")
+2026-06-15 17:36:09,745 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 17:36:09,745 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("plans")
+2026-06-15 17:36:09,745 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 17:36:09,745 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("subscriptions")
+2026-06-15 17:36:09,745 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 17:36:09,745 INFO sqlalchemy.engine.Engine COMMIT
+INFO:     Started server process [14502]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'app/core/security.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [14502]
+2026-06-15 17:37:47,572 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-06-15 17:37:47,573 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("organization_users")
+2026-06-15 17:37:47,573 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 17:37:47,573 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("organizations")
+2026-06-15 17:37:47,573 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 17:37:47,573 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("users")
+2026-06-15 17:37:47,573 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 17:37:47,573 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("applications")
+2026-06-15 17:37:47,573 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 17:37:47,573 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("api_keys")
+2026-06-15 17:37:47,573 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 17:37:47,573 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("detections")
+2026-06-15 17:37:47,573 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 17:37:47,573 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("usage_metrics")
+2026-06-15 17:37:47,573 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 17:37:47,573 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("rules")
+2026-06-15 17:37:47,573 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 17:37:47,573 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("audit_logs")
+2026-06-15 17:37:47,573 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 17:37:47,573 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("token_blacklist")
+2026-06-15 17:37:47,573 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 17:37:47,573 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("plans")
+2026-06-15 17:37:47,573 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 17:37:47,573 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("subscriptions")
+2026-06-15 17:37:47,573 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 17:37:47,573 INFO sqlalchemy.engine.Engine COMMIT
+INFO:     Started server process [14568]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'app/core/security.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [14568]
+2026-06-15 17:45:03,220 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-06-15 17:45:03,221 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("organization_users")
+2026-06-15 17:45:03,221 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 17:45:03,221 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("organizations")
+2026-06-15 17:45:03,221 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 17:45:03,221 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("users")
+2026-06-15 17:45:03,221 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 17:45:03,221 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("applications")
+2026-06-15 17:45:03,221 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 17:45:03,221 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("api_keys")
+2026-06-15 17:45:03,221 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 17:45:03,221 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("detections")
+2026-06-15 17:45:03,221 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 17:45:03,221 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("usage_metrics")
+2026-06-15 17:45:03,221 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 17:45:03,221 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("rules")
+2026-06-15 17:45:03,221 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 17:45:03,221 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("audit_logs")
+2026-06-15 17:45:03,221 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 17:45:03,221 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("token_blacklist")
+2026-06-15 17:45:03,221 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 17:45:03,221 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("plans")
+2026-06-15 17:45:03,221 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 17:45:03,221 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("subscriptions")
+2026-06-15 17:45:03,221 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 17:45:03,221 INFO sqlalchemy.engine.Engine COMMIT
+INFO:     Started server process [14890]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'app/core/security.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [14890]
+2026-06-15 17:45:57,979 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-06-15 17:45:57,979 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("organization_users")
+2026-06-15 17:45:57,979 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 17:45:57,979 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("organizations")
+2026-06-15 17:45:57,979 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 17:45:57,979 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("users")
+2026-06-15 17:45:57,979 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 17:45:57,979 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("applications")
+2026-06-15 17:45:57,979 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 17:45:57,980 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("api_keys")
+2026-06-15 17:45:57,980 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 17:45:57,980 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("detections")
+2026-06-15 17:45:57,980 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 17:45:57,980 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("usage_metrics")
+2026-06-15 17:45:57,980 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 17:45:57,980 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("rules")
+2026-06-15 17:45:57,980 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 17:45:57,980 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("audit_logs")
+2026-06-15 17:45:57,980 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 17:45:57,980 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("token_blacklist")
+2026-06-15 17:45:57,980 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 17:45:57,980 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("plans")
+2026-06-15 17:45:57,980 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 17:45:57,980 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("subscriptions")
+2026-06-15 17:45:57,980 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 17:45:57,980 INFO sqlalchemy.engine.Engine COMMIT
+INFO:     Started server process [14932]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'app/core/security.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [14932]
+2026-06-15 17:55:34,845 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-06-15 17:55:34,845 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("organization_users")
+2026-06-15 17:55:34,845 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 17:55:34,845 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("organizations")
+2026-06-15 17:55:34,845 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 17:55:34,845 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("users")
+2026-06-15 17:55:34,845 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 17:55:34,845 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("applications")
+2026-06-15 17:55:34,845 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 17:55:34,845 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("api_keys")
+2026-06-15 17:55:34,845 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 17:55:34,845 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("detections")
+2026-06-15 17:55:34,845 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 17:55:34,845 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("usage_metrics")
+2026-06-15 17:55:34,845 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 17:55:34,845 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("rules")
+2026-06-15 17:55:34,845 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 17:55:34,846 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("audit_logs")
+2026-06-15 17:55:34,846 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 17:55:34,846 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("token_blacklist")
+2026-06-15 17:55:34,846 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 17:55:34,846 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("plans")
+2026-06-15 17:55:34,846 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 17:55:34,846 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("subscriptions")
+2026-06-15 17:55:34,846 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 17:55:34,846 INFO sqlalchemy.engine.Engine COMMIT
+INFO:     Started server process [15271]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'app/core/security.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [15271]
+2026-06-15 17:55:59,801 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-06-15 17:55:59,801 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("organization_users")
+2026-06-15 17:55:59,801 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 17:55:59,801 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("organizations")
+2026-06-15 17:55:59,801 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 17:55:59,801 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("users")
+2026-06-15 17:55:59,802 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 17:55:59,802 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("applications")
+2026-06-15 17:55:59,802 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 17:55:59,802 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("api_keys")
+2026-06-15 17:55:59,802 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 17:55:59,802 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("detections")
+2026-06-15 17:55:59,802 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 17:55:59,802 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("usage_metrics")
+2026-06-15 17:55:59,802 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 17:55:59,802 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("rules")
+2026-06-15 17:55:59,802 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 17:55:59,802 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("audit_logs")
+2026-06-15 17:55:59,802 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 17:55:59,802 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("token_blacklist")
+2026-06-15 17:55:59,802 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 17:55:59,802 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("plans")
+2026-06-15 17:55:59,802 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 17:55:59,802 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("subscriptions")
+2026-06-15 17:55:59,802 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 17:55:59,802 INFO sqlalchemy.engine.Engine COMMIT
+INFO:     Started server process [15311]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'app/core/security.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [15311]
+2026-06-15 17:56:23,566 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-06-15 17:56:23,566 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("organization_users")
+2026-06-15 17:56:23,566 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 17:56:23,566 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("organizations")
+2026-06-15 17:56:23,566 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 17:56:23,566 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("users")
+2026-06-15 17:56:23,566 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 17:56:23,566 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("applications")
+2026-06-15 17:56:23,566 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 17:56:23,566 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("api_keys")
+2026-06-15 17:56:23,566 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 17:56:23,566 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("detections")
+2026-06-15 17:56:23,566 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 17:56:23,566 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("usage_metrics")
+2026-06-15 17:56:23,566 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 17:56:23,566 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("rules")
+2026-06-15 17:56:23,566 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 17:56:23,567 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("audit_logs")
+2026-06-15 17:56:23,567 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 17:56:23,567 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("token_blacklist")
+2026-06-15 17:56:23,567 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 17:56:23,567 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("plans")
+2026-06-15 17:56:23,567 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 17:56:23,567 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("subscriptions")
+2026-06-15 17:56:23,567 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 17:56:23,567 INFO sqlalchemy.engine.Engine COMMIT
+INFO:     Started server process [15341]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'app/core/security.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [15341]
+2026-06-15 18:00:14,503 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-06-15 18:00:14,504 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("organization_users")
+2026-06-15 18:00:14,504 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:00:14,504 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("organizations")
+2026-06-15 18:00:14,504 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:00:14,504 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("users")
+2026-06-15 18:00:14,504 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:00:14,504 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("applications")
+2026-06-15 18:00:14,504 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:00:14,504 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("api_keys")
+2026-06-15 18:00:14,504 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:00:14,504 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("detections")
+2026-06-15 18:00:14,504 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:00:14,504 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("usage_metrics")
+2026-06-15 18:00:14,504 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:00:14,504 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("rules")
+2026-06-15 18:00:14,504 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:00:14,504 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("audit_logs")
+2026-06-15 18:00:14,504 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:00:14,504 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("token_blacklist")
+2026-06-15 18:00:14,504 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:00:14,504 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("plans")
+2026-06-15 18:00:14,504 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:00:14,504 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("subscriptions")
+2026-06-15 18:00:14,504 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:00:14,504 INFO sqlalchemy.engine.Engine COMMIT
+INFO:     Started server process [15805]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'app/core/security.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [15805]
+2026-06-15 18:03:22,246 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-06-15 18:03:22,247 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("organization_users")
+2026-06-15 18:03:22,247 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:03:22,247 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("organizations")
+2026-06-15 18:03:22,247 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:03:22,247 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("users")
+2026-06-15 18:03:22,247 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:03:22,247 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("applications")
+2026-06-15 18:03:22,247 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:03:22,247 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("api_keys")
+2026-06-15 18:03:22,247 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:03:22,247 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("detections")
+2026-06-15 18:03:22,247 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:03:22,247 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("usage_metrics")
+2026-06-15 18:03:22,247 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:03:22,247 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("rules")
+2026-06-15 18:03:22,247 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:03:22,247 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("audit_logs")
+2026-06-15 18:03:22,247 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:03:22,247 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("token_blacklist")
+2026-06-15 18:03:22,247 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:03:22,247 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("plans")
+2026-06-15 18:03:22,247 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:03:22,247 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("subscriptions")
+2026-06-15 18:03:22,247 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:03:22,247 INFO sqlalchemy.engine.Engine COMMIT
+INFO:     Started server process [15910]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'app/core/security.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [15910]
+2026-06-15 18:03:31,277 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-06-15 18:03:31,277 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("organization_users")
+2026-06-15 18:03:31,277 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:03:31,278 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("organizations")
+2026-06-15 18:03:31,278 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:03:31,278 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("users")
+2026-06-15 18:03:31,278 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:03:31,278 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("applications")
+2026-06-15 18:03:31,278 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:03:31,278 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("api_keys")
+2026-06-15 18:03:31,278 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:03:31,278 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("detections")
+2026-06-15 18:03:31,278 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:03:31,278 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("usage_metrics")
+2026-06-15 18:03:31,278 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:03:31,278 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("rules")
+2026-06-15 18:03:31,278 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:03:31,278 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("audit_logs")
+2026-06-15 18:03:31,278 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:03:31,278 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("token_blacklist")
+2026-06-15 18:03:31,278 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:03:31,278 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("plans")
+2026-06-15 18:03:31,278 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:03:31,278 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("subscriptions")
+2026-06-15 18:03:31,278 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:03:31,278 INFO sqlalchemy.engine.Engine COMMIT
+INFO:     Started server process [15931]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'app/core/security.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [15931]
+2026-06-15 18:08:54,720 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-06-15 18:08:54,720 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("organization_users")
+2026-06-15 18:08:54,720 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:08:54,720 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("organizations")
+2026-06-15 18:08:54,720 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:08:54,720 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("users")
+2026-06-15 18:08:54,720 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:08:54,720 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("applications")
+2026-06-15 18:08:54,720 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:08:54,720 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("api_keys")
+2026-06-15 18:08:54,720 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:08:54,720 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("detections")
+2026-06-15 18:08:54,720 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:08:54,720 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("usage_metrics")
+2026-06-15 18:08:54,720 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:08:54,720 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("rules")
+2026-06-15 18:08:54,720 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:08:54,720 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("audit_logs")
+2026-06-15 18:08:54,720 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:08:54,721 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("token_blacklist")
+2026-06-15 18:08:54,721 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:08:54,721 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("plans")
+2026-06-15 18:08:54,721 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:08:54,721 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("subscriptions")
+2026-06-15 18:08:54,721 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:08:54,721 INFO sqlalchemy.engine.Engine COMMIT
+INFO:     Started server process [16325]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'app/core/security.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [16325]
+2026-06-15 18:09:18,394 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-06-15 18:09:18,394 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("organization_users")
+2026-06-15 18:09:18,394 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:09:18,394 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("organizations")
+2026-06-15 18:09:18,394 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:09:18,395 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("users")
+2026-06-15 18:09:18,395 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:09:18,395 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("applications")
+2026-06-15 18:09:18,395 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:09:18,395 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("api_keys")
+2026-06-15 18:09:18,395 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:09:18,395 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("detections")
+2026-06-15 18:09:18,395 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:09:18,395 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("usage_metrics")
+2026-06-15 18:09:18,395 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:09:18,395 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("rules")
+2026-06-15 18:09:18,395 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:09:18,395 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("audit_logs")
+2026-06-15 18:09:18,395 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:09:18,395 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("token_blacklist")
+2026-06-15 18:09:18,395 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:09:18,395 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("plans")
+2026-06-15 18:09:18,395 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:09:18,395 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("subscriptions")
+2026-06-15 18:09:18,395 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:09:18,395 INFO sqlalchemy.engine.Engine COMMIT
+INFO:     Started server process [16359]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'app/core/security.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [16359]
+2026-06-15 18:15:15,050 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-06-15 18:15:15,050 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("organization_users")
+2026-06-15 18:15:15,050 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:15:15,050 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("organizations")
+2026-06-15 18:15:15,050 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:15:15,050 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("users")
+2026-06-15 18:15:15,050 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:15:15,050 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("applications")
+2026-06-15 18:15:15,050 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:15:15,050 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("api_keys")
+2026-06-15 18:15:15,050 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:15:15,050 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("detections")
+2026-06-15 18:15:15,050 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:15:15,050 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("usage_metrics")
+2026-06-15 18:15:15,050 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:15:15,050 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("rules")
+2026-06-15 18:15:15,050 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:15:15,050 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("audit_logs")
+2026-06-15 18:15:15,050 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:15:15,050 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("token_blacklist")
+2026-06-15 18:15:15,050 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:15:15,050 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("plans")
+2026-06-15 18:15:15,050 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:15:15,050 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("subscriptions")
+2026-06-15 18:15:15,050 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:15:15,050 INFO sqlalchemy.engine.Engine COMMIT
+INFO:     Started server process [16569]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'app/core/security.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [16569]
+2026-06-15 18:34:24,972 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-06-15 18:34:24,972 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("organization_users")
+2026-06-15 18:34:24,972 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:34:24,972 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("organizations")
+2026-06-15 18:34:24,972 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:34:24,972 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("users")
+2026-06-15 18:34:24,972 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:34:24,972 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("applications")
+2026-06-15 18:34:24,972 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:34:24,972 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("api_keys")
+2026-06-15 18:34:24,973 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:34:24,973 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("detections")
+2026-06-15 18:34:24,973 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:34:24,973 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("usage_metrics")
+2026-06-15 18:34:24,973 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:34:24,973 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("rules")
+2026-06-15 18:34:24,973 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:34:24,973 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("audit_logs")
+2026-06-15 18:34:24,973 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:34:24,973 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("token_blacklist")
+2026-06-15 18:34:24,973 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:34:24,973 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("plans")
+2026-06-15 18:34:24,973 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:34:24,973 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("subscriptions")
+2026-06-15 18:34:24,973 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:34:24,973 INFO sqlalchemy.engine.Engine COMMIT
+INFO:     Started server process [17154]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'app/core/security.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [17154]
+2026-06-15 18:36:47,565 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-06-15 18:36:47,565 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("organization_users")
+2026-06-15 18:36:47,565 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:36:47,565 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("organizations")
+2026-06-15 18:36:47,565 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:36:47,565 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("users")
+2026-06-15 18:36:47,565 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:36:47,565 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("applications")
+2026-06-15 18:36:47,565 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:36:47,565 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("api_keys")
+2026-06-15 18:36:47,565 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:36:47,565 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("detections")
+2026-06-15 18:36:47,565 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:36:47,565 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("usage_metrics")
+2026-06-15 18:36:47,565 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:36:47,565 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("rules")
+2026-06-15 18:36:47,565 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:36:47,565 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("audit_logs")
+2026-06-15 18:36:47,565 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:36:47,565 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("token_blacklist")
+2026-06-15 18:36:47,565 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:36:47,565 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("plans")
+2026-06-15 18:36:47,566 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:36:47,566 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("subscriptions")
+2026-06-15 18:36:47,566 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:36:47,566 INFO sqlalchemy.engine.Engine COMMIT
+INFO:     Started server process [17263]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'app/core/security.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [17263]
+2026-06-15 18:39:39,198 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-06-15 18:39:39,199 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("organization_users")
+2026-06-15 18:39:39,199 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:39:39,199 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("organizations")
+2026-06-15 18:39:39,199 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:39:39,199 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("users")
+2026-06-15 18:39:39,199 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:39:39,199 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("applications")
+2026-06-15 18:39:39,199 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:39:39,199 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("api_keys")
+2026-06-15 18:39:39,199 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:39:39,199 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("detections")
+2026-06-15 18:39:39,199 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:39:39,199 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("usage_metrics")
+2026-06-15 18:39:39,199 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:39:39,199 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("rules")
+2026-06-15 18:39:39,199 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:39:39,199 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("audit_logs")
+2026-06-15 18:39:39,199 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:39:39,199 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("token_blacklist")
+2026-06-15 18:39:39,199 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:39:39,199 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("plans")
+2026-06-15 18:39:39,199 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:39:39,199 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("subscriptions")
+2026-06-15 18:39:39,199 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:39:39,199 INFO sqlalchemy.engine.Engine COMMIT
+INFO:     Started server process [17378]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'app/core/security.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [17378]
+2026-06-15 18:39:53,950 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-06-15 18:39:53,950 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("organization_users")
+2026-06-15 18:39:53,950 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:39:53,950 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("organizations")
+2026-06-15 18:39:53,950 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:39:53,950 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("users")
+2026-06-15 18:39:53,950 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:39:53,950 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("applications")
+2026-06-15 18:39:53,950 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:39:53,950 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("api_keys")
+2026-06-15 18:39:53,950 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:39:53,950 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("detections")
+2026-06-15 18:39:53,950 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:39:53,950 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("usage_metrics")
+2026-06-15 18:39:53,951 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:39:53,951 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("rules")
+2026-06-15 18:39:53,951 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:39:53,951 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("audit_logs")
+2026-06-15 18:39:53,951 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:39:53,951 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("token_blacklist")
+2026-06-15 18:39:53,951 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:39:53,951 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("plans")
+2026-06-15 18:39:53,951 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:39:53,951 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("subscriptions")
+2026-06-15 18:39:53,951 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:39:53,951 INFO sqlalchemy.engine.Engine COMMIT
+INFO:     Started server process [17402]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'app/core/security.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [17402]
+2026-06-15 18:40:13,370 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-06-15 18:40:13,370 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("organization_users")
+2026-06-15 18:40:13,370 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:40:13,371 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("organizations")
+2026-06-15 18:40:13,371 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:40:13,371 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("users")
+2026-06-15 18:40:13,371 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:40:13,371 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("applications")
+2026-06-15 18:40:13,371 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:40:13,371 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("api_keys")
+2026-06-15 18:40:13,371 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:40:13,371 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("detections")
+2026-06-15 18:40:13,371 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:40:13,371 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("usage_metrics")
+2026-06-15 18:40:13,371 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:40:13,371 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("rules")
+2026-06-15 18:40:13,371 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:40:13,371 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("audit_logs")
+2026-06-15 18:40:13,371 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:40:13,371 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("token_blacklist")
+2026-06-15 18:40:13,371 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:40:13,371 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("plans")
+2026-06-15 18:40:13,371 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:40:13,371 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("subscriptions")
+2026-06-15 18:40:13,371 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:40:13,371 INFO sqlalchemy.engine.Engine COMMIT
+INFO:     Started server process [17424]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'app/core/security.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [17424]
+2026-06-15 18:40:59,824 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-06-15 18:40:59,824 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("organization_users")
+2026-06-15 18:40:59,824 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:40:59,824 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("organizations")
+2026-06-15 18:40:59,824 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:40:59,824 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("users")
+2026-06-15 18:40:59,824 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:40:59,824 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("applications")
+2026-06-15 18:40:59,824 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:40:59,824 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("api_keys")
+2026-06-15 18:40:59,824 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:40:59,824 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("detections")
+2026-06-15 18:40:59,824 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:40:59,824 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("usage_metrics")
+2026-06-15 18:40:59,824 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:40:59,824 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("rules")
+2026-06-15 18:40:59,824 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:40:59,824 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("audit_logs")
+2026-06-15 18:40:59,824 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:40:59,824 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("token_blacklist")
+2026-06-15 18:40:59,824 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:40:59,824 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("plans")
+2026-06-15 18:40:59,824 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:40:59,824 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("subscriptions")
+2026-06-15 18:40:59,824 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:40:59,824 INFO sqlalchemy.engine.Engine COMMIT
+INFO:     Started server process [17462]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'app/core/security.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [17462]
+2026-06-15 18:41:08,420 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-06-15 18:41:08,420 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("organization_users")
+2026-06-15 18:41:08,420 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:41:08,420 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("organizations")
+2026-06-15 18:41:08,420 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:41:08,420 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("users")
+2026-06-15 18:41:08,420 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:41:08,421 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("applications")
+2026-06-15 18:41:08,421 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:41:08,421 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("api_keys")
+2026-06-15 18:41:08,421 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:41:08,421 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("detections")
+2026-06-15 18:41:08,421 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:41:08,421 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("usage_metrics")
+2026-06-15 18:41:08,421 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:41:08,421 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("rules")
+2026-06-15 18:41:08,421 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:41:08,421 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("audit_logs")
+2026-06-15 18:41:08,421 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:41:08,421 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("token_blacklist")
+2026-06-15 18:41:08,421 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:41:08,421 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("plans")
+2026-06-15 18:41:08,421 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:41:08,421 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("subscriptions")
+2026-06-15 18:41:08,421 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:41:08,421 INFO sqlalchemy.engine.Engine COMMIT
+INFO:     Started server process [17481]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'app/api/auth.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [17481]
+2026-06-15 18:41:39,161 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-06-15 18:41:39,161 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("organization_users")
+2026-06-15 18:41:39,161 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:41:39,162 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("organizations")
+2026-06-15 18:41:39,162 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:41:39,162 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("users")
+2026-06-15 18:41:39,162 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:41:39,162 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("applications")
+2026-06-15 18:41:39,162 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:41:39,162 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("api_keys")
+2026-06-15 18:41:39,162 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:41:39,162 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("detections")
+2026-06-15 18:41:39,162 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:41:39,162 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("usage_metrics")
+2026-06-15 18:41:39,162 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:41:39,162 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("rules")
+2026-06-15 18:41:39,162 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:41:39,162 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("audit_logs")
+2026-06-15 18:41:39,162 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:41:39,162 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("token_blacklist")
+2026-06-15 18:41:39,162 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:41:39,162 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("plans")
+2026-06-15 18:41:39,162 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:41:39,162 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("subscriptions")
+2026-06-15 18:41:39,162 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:41:39,162 INFO sqlalchemy.engine.Engine COMMIT
+INFO:     Started server process [17511]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'app/core/security.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [17511]
+2026-06-15 18:47:50,829 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-06-15 18:47:50,829 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("organization_users")
+2026-06-15 18:47:50,829 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:47:50,829 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("organizations")
+2026-06-15 18:47:50,829 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:47:50,829 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("users")
+2026-06-15 18:47:50,829 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:47:50,829 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("applications")
+2026-06-15 18:47:50,829 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:47:50,829 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("api_keys")
+2026-06-15 18:47:50,829 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:47:50,829 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("detections")
+2026-06-15 18:47:50,829 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:47:50,829 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("usage_metrics")
+2026-06-15 18:47:50,829 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:47:50,829 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("rules")
+2026-06-15 18:47:50,829 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:47:50,829 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("audit_logs")
+2026-06-15 18:47:50,829 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:47:50,829 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("token_blacklist")
+2026-06-15 18:47:50,829 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:47:50,829 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("plans")
+2026-06-15 18:47:50,829 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:47:50,829 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("subscriptions")
+2026-06-15 18:47:50,829 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:47:50,829 INFO sqlalchemy.engine.Engine COMMIT
+INFO:     Started server process [18353]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'app/core/security.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [18353]
+2026-06-15 18:48:19,136 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-06-15 18:48:19,136 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("organization_users")
+2026-06-15 18:48:19,136 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:48:19,137 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("organizations")
+2026-06-15 18:48:19,137 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:48:19,137 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("users")
+2026-06-15 18:48:19,137 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:48:19,137 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("applications")
+2026-06-15 18:48:19,137 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:48:19,137 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("api_keys")
+2026-06-15 18:48:19,137 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:48:19,137 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("detections")
+2026-06-15 18:48:19,137 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:48:19,137 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("usage_metrics")
+2026-06-15 18:48:19,137 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:48:19,137 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("rules")
+2026-06-15 18:48:19,137 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:48:19,137 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("audit_logs")
+2026-06-15 18:48:19,137 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:48:19,137 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("token_blacklist")
+2026-06-15 18:48:19,137 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:48:19,137 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("plans")
+2026-06-15 18:48:19,137 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:48:19,137 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("subscriptions")
+2026-06-15 18:48:19,137 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:48:19,137 INFO sqlalchemy.engine.Engine COMMIT
+INFO:     Started server process [18383]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'app/core/security.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [18383]
+2026-06-15 18:56:50,276 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-06-15 18:56:50,276 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("organization_users")
+2026-06-15 18:56:50,276 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:56:50,276 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("organizations")
+2026-06-15 18:56:50,276 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:56:50,276 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("users")
+2026-06-15 18:56:50,276 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:56:50,276 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("applications")
+2026-06-15 18:56:50,276 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:56:50,276 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("api_keys")
+2026-06-15 18:56:50,276 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:56:50,276 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("detections")
+2026-06-15 18:56:50,276 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:56:50,276 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("usage_metrics")
+2026-06-15 18:56:50,276 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:56:50,276 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("rules")
+2026-06-15 18:56:50,276 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:56:50,276 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("audit_logs")
+2026-06-15 18:56:50,276 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:56:50,276 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("token_blacklist")
+2026-06-15 18:56:50,276 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:56:50,276 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("plans")
+2026-06-15 18:56:50,276 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:56:50,276 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("subscriptions")
+2026-06-15 18:56:50,276 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 18:56:50,276 INFO sqlalchemy.engine.Engine COMMIT
+INFO:     Started server process [18831]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'app/core/security.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [18831]
+2026-06-15 19:01:33,137 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-06-15 19:01:33,137 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("organization_users")
+2026-06-15 19:01:33,137 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 19:01:33,137 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("organizations")
+2026-06-15 19:01:33,137 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 19:01:33,137 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("users")
+2026-06-15 19:01:33,137 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 19:01:33,137 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("applications")
+2026-06-15 19:01:33,137 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 19:01:33,137 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("api_keys")
+2026-06-15 19:01:33,137 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 19:01:33,137 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("detections")
+2026-06-15 19:01:33,137 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 19:01:33,137 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("usage_metrics")
+2026-06-15 19:01:33,137 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 19:01:33,137 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("rules")
+2026-06-15 19:01:33,137 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 19:01:33,137 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("audit_logs")
+2026-06-15 19:01:33,137 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 19:01:33,137 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("token_blacklist")
+2026-06-15 19:01:33,137 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 19:01:33,137 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("plans")
+2026-06-15 19:01:33,137 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 19:01:33,138 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("subscriptions")
+2026-06-15 19:01:33,138 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-06-15 19:01:33,138 INFO sqlalchemy.engine.Engine COMMIT
+INFO:     Started server process [18963]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [18963]
+INFO:     Stopping reloader process [9989]

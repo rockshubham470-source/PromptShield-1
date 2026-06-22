@@ -1,0 +1,123 @@
+from datetime import datetime, timedelta
+from typing import Optional
+import jwt
+import uuid
+from passlib.context import CryptContext
+from app.core.config import settings
+from sqlalchemy.orm import Session
+from app.models import User, TokenBlacklist
+
+pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+
+def hash_password(password: str) -> str:
+    """Hash a password"""
+    # Truncate password to 72 bytes for bcrypt limit
+    password_bytes = password.encode('utf-8')
+    if len(password_bytes) > 72:
+        password_bytes = password_bytes[:72]
+    truncated_password = password_bytes.decode('utf-8', errors='ignore')
+    return pwd_context.hash(truncated_password)
+
+def verify_password(plain_password: str, hashed_password: str) -> bool:
+    """Verify a password against hash"""
+    # Truncate password to 72 bytes for bcrypt limit
+    password_bytes = plain_password.encode('utf-8')
+    if len(password_bytes) > 72:
+        password_bytes = password_bytes[:72]
+    truncated_password = password_bytes.decode('utf-8', errors='ignore')
+    return pwd_context.verify(truncated_password, hashed_password)
+
+def create_access_token(data: dict, expires_delta: Optional[timedelta] = None) -> str:
+    """Create JWT access token"""
+    to_encode = data.copy()
+    if expires_delta:
+        expire = datetime.utcnow() + expires_delta
+    else:
+        expire = datetime.utcnow() + timedelta(minutes=15)
+    
+    to_encode.update({"exp": expire})
+    encoded_jwt = jwt.encode(to_encode, settings.secret_key, algorithm=settings.algorithm)
+    return encoded_jwt
+
+def create_refresh_token(data: dict) -> str:
+    """Create JWT refresh token"""
+    to_encode = data.copy()
+    expire = datetime.utcnow() + timedelta(days=settings.refresh_token_expire_days)
+    to_encode.update({"exp": expire, "type": "refresh"})
+    encoded_jwt = jwt.encode(to_encode, settings.secret_key, algorithm=settings.algorithm)
+    return encoded_jwt
+
+def verify_token(token: str) -> Optional[dict]:
+    """Verify JWT token"""
+    try:
+        payload = jwt.decode(token, settings.secret_key, algorithms=[settings.algorithm])
+        return payload
+    except jwt.ExpiredSignatureError:
+        return None
+    except jwt.InvalidTokenError:
+        return None
+
+def decode_token(token: str) -> Optional[dict]:
+    """Decode JWT token without verification"""
+    try:
+        payload = jwt.decode(token, settings.secret_key, algorithms=[settings.algorithm])
+        return payload
+    except Exception:
+        return None
+
+
+def is_account_locked(user: User) -> bool:
+    """Check if user account is locked due to failed login attempts"""
+    if user.locked_until and user.locked_until > datetime.utcnow():
+        return True
+    return False
+
+
+def record_failed_login(db: Session, user: User) -> None:
+    """Record a failed login attempt and lock account if threshold reached"""
+    user.failed_login_attempts += 1
+
+    # Lock account after 5 failed attempts for 30 minutes
+    if user.failed_login_attempts >= 5:
+        user.locked_until = datetime.utcnow() + timedelta(minutes=30)
+
+    db.add(user)
+    db.commit()
+
+
+def reset_failed_logins(db: Session, user: User) -> None:
+    """Reset failed login attempts on successful login"""
+    if user.failed_login_attempts > 0 or user.locked_until:
+        user.failed_login_attempts = 0
+        user.locked_until = None
+        db.add(user)
+        db.commit()
+
+
+def blacklist_token(db: Session, token_jti: str, user_id: str, expires_at: datetime, reason: str = "logout") -> None:
+    """Add token to blacklist for revocation"""
+    blacklist_entry = TokenBlacklist(
+        jti=token_jti,
+        user_id=user_id,
+        expires_at=expires_at,
+        reason=reason
+    )
+    db.add(blacklist_entry)
+    db.commit()
+
+
+def is_token_blacklisted(db: Session, token_jti: str) -> bool:
+    """Check if token is in blacklist"""
+    blacklist_entry = db.query(TokenBlacklist).filter(
+        TokenBlacklist.jti == token_jti,
+        TokenBlacklist.expires_at > datetime.utcnow()
+    ).first()
+    return blacklist_entry is not None
+
+
+def cleanup_expired_blacklisted_tokens(db: Session) -> None:
+    """Remove expired tokens from blacklist (cleanup function)"""
+    db.query(TokenBlacklist).filter(
+        TokenBlacklist.expires_at <= datetime.utcnow()
+    ).delete()
+    db.commit()
