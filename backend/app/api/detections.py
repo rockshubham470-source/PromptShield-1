@@ -1,4 +1,4 @@
-from urllib import request
+from urllib import request as urllib_request
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 from sqlalchemy import desc, func
@@ -10,7 +10,7 @@ from app.schemas import DetectionRequest, DetectionResponse, DetectionEventRespo
 from app.core.config import settings
 import sys
 import os
-from app.core.dependencies import get_current_user
+from app.core.dependencies import get_current_user, get_caller
 from app.core.org_middleware import get_current_org
 from app.models import User, UsageMetric
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '../../python-sdk'))
@@ -29,10 +29,12 @@ router = APIRouter(prefix="/detections", tags=["detections"], redirect_slashes=F
 async def analyze_prompt(
     request: DetectionRequest,
     db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user),
-    org_id: str = Depends(get_current_org)
+    caller=Depends(get_caller),   # accepts JWT or API key
 ):
-    """Analyze a single prompt for injection attacks"""
+    """Analyze a single prompt for injection attacks.
+    Auth: Bearer <JWT> OR Bearer ps_<apikey> OR X-API-Key: ps_<apikey>
+    """
+    current_user, org_id = caller
 
     if not DETECTOR_AVAILABLE:
         return {

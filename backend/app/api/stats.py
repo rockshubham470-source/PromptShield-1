@@ -4,22 +4,23 @@ from sqlalchemy import desc, func
 from datetime import datetime, timedelta
 import json
 from app.core.database import get_db
-from app.models import Detection, Rule
+from app.models import Detection, Rule, User
 from app.schemas import StatsResponse, AnalyticsResponse
+from app.core.dependencies import get_current_user
+from app.core.org_middleware import get_current_org
 
 router = APIRouter(prefix="/stats", tags=["stats"])
 
-def get_current_user_id(token: str = None) -> str:
-    """Mock current user"""
-    return "demo-user-id"
 
 @router.get("/dashboard", response_model=StatsResponse)
 async def get_dashboard_stats(
     db: Session = Depends(get_db),
-    user_id: str = Depends(get_current_user_id)
+    current_user: User = Depends(get_current_user),
+    org_id: str = Depends(get_current_org),
 ):
-    """Get dashboard statistics"""
-    
+    """Get dashboard statistics for the authenticated user's organisation."""
+    user_id = current_user.id
+
     total_detections = db.query(func.count(Detection.id)).filter(
         Detection.user_id == user_id
     ).scalar() or 0
@@ -28,32 +29,35 @@ async def get_dashboard_stats(
         Detection.user_id == user_id,
         Detection.risk_level == "critical"
     ).scalar() or 0
-    
+
     safe_inputs = db.query(func.count(Detection.id)).filter(
         Detection.user_id == user_id,
         Detection.risk_level == "safe"
     ).scalar() or 0
-    
+
     avg_latency = db.query(func.avg(Detection.processing_time_ms)).filter(
         Detection.user_id == user_id
     ).scalar() or 0
-    
+
     return {
         "total_detections": total_detections,
         "critical_alerts": critical_alerts,
         "safe_inputs": safe_inputs,
         "avg_latency_ms": float(avg_latency),
         "detection_accuracy": 88.4,
-        "false_positive_rate": 2.4
+        "false_positive_rate": 2.4,
     }
+
 
 @router.get("/analytics", response_model=AnalyticsResponse)
 async def get_analytics(
     period: str = "7d",
     db: Session = Depends(get_db),
-    user_id: str = Depends(get_current_user_id)
+    current_user: User = Depends(get_current_user),
+    org_id: str = Depends(get_current_org),
 ):
     """Get analytics data"""
+    user_id = current_user.id
 
     now = datetime.utcnow()
     if period == "24h":

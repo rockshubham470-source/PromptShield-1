@@ -1,284 +1,185 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   Shield,
   AlertTriangle,
   Zap,
   TrendingUp,
-  Globe,
   Activity,
+  RefreshCw,
 } from 'lucide-react'
+import { TrendChart, RiskDistributionChart, BarChartComponent } from '../components/Charts'
+import api from '../lib/api.service'
 
-import {
-  TrendChart,
-  RiskDistributionChart,
-  BarChartComponent,
-} from '../components/Charts'
+// ─── Types ───────────────────────────────────────────────────────────────────
 
-const kpiGroups = [
-  {
-    title: 'Detection Health',
-    items: [
-      {
-        title: 'Accuracy',
-        value: '88.4%',
-        change: '+2.1%',
-        icon: Shield,
-        color: 'text-emerald-400',
-      },
-      {
-        title: 'False Positives',
-        value: '2.4%',
-        change: '-0.3%',
-        icon: AlertTriangle,
-        color: 'text-amber-400',
-      },
-    ],
-  },
-  {
-    title: 'Performance',
-    items: [
-      {
-        title: 'Latency',
-        value: '45ms',
-        change: '↓ Target',
-        icon: Zap,
-        color: 'text-blue-400',
-      },
-      {
-        title: 'Throughput',
-        value: '12.4k/s',
-        change: '+8%',
-        icon: TrendingUp,
-        color: 'text-purple-400',
-      },
-    ],
-  },
-]
+interface AnalyticsData {
+  period: string
+  total_detections: number
+  by_risk_level: Record<string, number>
+  top_patterns: Array<{ name: string; count: number; percentage: number }>
+  avg_accuracy: number
+  avg_latency_ms: number
+}
+
+// ─── Skeleton ─────────────────────────────────────────────────────────────────
+
+function Skel({ h = 'h-16' }: { h?: string }) {
+  return <div className={`${h} rounded-xl bg-white/5 animate-pulse`} />
+}
+
+// ─── Main Page ────────────────────────────────────────────────────────────────
 
 export default function Analytics() {
-  return (
-    <div className="min-h-screen bg-[#0A0F1C] p-6">
+  const [period, setPeriod] = useState('7d')
+  const [data, setData] = useState<AnalyticsData | null>(null)
+  const [loading, setLoading] = useState(true)
+  const [refreshing, setRefreshing] = useState(false)
 
-      {/* HEADER */}
-      <div className="mb-6">
-        <h1 className="text-3xl font-bold text-white">
-          Security Analytics
-        </h1>
-        <p className="text-gray-400 text-sm mt-1">
-          Real-time system intelligence and anomaly tracking
-        </p>
+  const load = async (showSpinner = false) => {
+    if (showSpinner) setRefreshing(true)
+    try {
+      const res = await api.get(`/stats/analytics?period=${period}`)
+      setData(res.data)
+    } catch { /* silent */ }
+    setLoading(false)
+    setRefreshing(false)
+  }
+
+  useEffect(() => { load() }, [period]) // eslint-disable-line
+
+  const total = data?.total_detections ?? 0
+  const byRisk = data?.by_risk_level ?? {}
+  const topPatterns = data?.top_patterns ?? []
+
+  return (
+    <div className="space-y-6">
+
+      {/* Header */}
+      <div className="flex items-center justify-between">
+        <div>
+          <h1 className="text-2xl font-bold text-white">Security Analytics</h1>
+          <p className="text-gray-400 mt-1">Real-time intelligence across all applications</p>
+        </div>
+        <div className="flex items-center gap-2">
+          {(['24h', '7d', '30d', '90d'] as const).map(p => (
+            <button key={p} onClick={() => setPeriod(p)}
+              className={`px-4 py-2 rounded-xl text-sm transition-all ${period === p ? 'bg-blue-600 text-white' : 'bg-white/5 text-gray-400 hover:bg-white/10'}`}>
+              {p}
+            </button>
+          ))}
+          <button onClick={() => load(true)} disabled={refreshing}
+            className="flex items-center gap-2 text-sm text-gray-400 hover:text-white border border-white/10 rounded-xl px-3 py-2 hover:bg-white/5 transition-all disabled:opacity-50 ml-2">
+            <RefreshCw className={`h-4 w-4 ${refreshing ? 'animate-spin' : ''}`} />
+          </button>
+        </div>
       </div>
 
-      {/* MAIN GRID */}
+      {/* KPI row */}
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+        {loading ? Array(4).fill(0).map((_, i) => <Skel key={i} />) : (
+          <>
+            <MetricCard icon={<Shield className="h-4 w-4 text-green-400" />} label="Total Detections" value={total.toLocaleString()} color="bg-green-500/10" />
+            <MetricCard icon={<AlertTriangle className="h-4 w-4 text-red-400" />} label="Critical" value={(byRisk.critical ?? 0).toLocaleString()} sub={`${total ? ((byRisk.critical ?? 0) / total * 100).toFixed(1) : 0}% of total`} color="bg-red-500/10" />
+            <MetricCard icon={<Zap className="h-4 w-4 text-blue-400" />} label="Avg Latency" value={`${Math.round(data?.avg_latency_ms ?? 0)}ms`} color="bg-blue-500/10" />
+            <MetricCard icon={<TrendingUp className="h-4 w-4 text-purple-400" />} label="Detection Accuracy" value={`${data?.avg_accuracy ?? 0}%`} color="bg-purple-500/10" />
+          </>
+        )}
+      </div>
+
+      {/* Charts + Risk breakdown */}
       <div className="grid grid-cols-12 gap-6">
 
-        {/* LEFT SIDE */}
         <div className="col-span-8 space-y-6">
+          <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
+            <p className="text-white font-semibold mb-4">Detection Trend</p>
+            <TrendChart />
+          </div>
+          <div className="grid grid-cols-2 gap-4">
+            <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
+              <p className="text-white font-semibold mb-4">Risk Distribution</p>
+              <RiskDistributionChart />
+            </div>
+            <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
+              <p className="text-white font-semibold mb-4">Volume by Day</p>
+              <BarChartComponent />
+            </div>
+          </div>
+        </div>
 
-          {/* KPI GROUPS */}
-          {kpiGroups.map((group) => (
-            <div key={group.title}>
-              <div className="flex items-center mb-3">
-                <h2 className="text-xs uppercase tracking-wider text-gray-500">
-                  {group.title}
-                </h2>
-                <div className="flex-1 h-px bg-white/5 ml-3" />
-              </div>
+        <div className="col-span-4 space-y-4">
 
-              <div className="grid grid-cols-2 gap-3">
-                {group.items.map((m) => {
-                  const Icon = m.icon
-
+          {/* Risk level breakdown */}
+          <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
+            <p className="text-white font-semibold mb-4">By Risk Level</p>
+            {loading ? <Skel h="h-32" /> : (
+              <div className="space-y-3">
+                {[
+                  { key: 'safe', label: 'Safe', cls: 'bg-green-500' },
+                  { key: 'caution', label: 'Caution', cls: 'bg-yellow-500' },
+                  { key: 'risky', label: 'Risky', cls: 'bg-orange-500' },
+                  { key: 'critical', label: 'Critical', cls: 'bg-red-500' },
+                ].map(({ key, label, cls }) => {
+                  const count = byRisk[key] ?? 0
+                  const pct = total ? Math.round(count / total * 100) : 0
                   return (
-                    <div
-                      key={m.title}
-                      className="rounded-xl border border-white/10 bg-white/5 p-4 hover:border-blue-500/30 transition"
-                    >
-                      <div className="flex justify-between items-center">
-                        <Icon size={14} className={m.color} />
-                        <span className="text-[10px] text-gray-400">
-                          {m.change}
-                        </span>
+                    <div key={key}>
+                      <div className="flex justify-between text-xs mb-1">
+                        <span className="text-gray-400">{label}</span>
+                        <span className="text-white font-medium">{count.toLocaleString()} <span className="text-gray-500">({pct}%)</span></span>
                       </div>
-
-                      <div className={`text-2xl font-semibold mt-2 ${m.color}`}>
-                        {m.value}
-                      </div>
-
-                      <div className="text-xs text-gray-400 mt-1">
-                        {m.title}
+                      <div className="h-1.5 rounded-full bg-white/10">
+                        <div className={`h-1.5 rounded-full ${cls}`} style={{ width: `${pct}%` }} />
                       </div>
                     </div>
                   )
                 })}
               </div>
-            </div>
-          ))}
-
-          {/* MAIN TREND */}
-          <div className="rounded-2xl border border-white/10 bg-white/5 p-4">
-            <TrendChart />
+            )}
           </div>
 
-          {/* BOTTOM CHARTS */}
-          <div className="grid grid-cols-2 gap-4">
-            <div className="rounded-2xl border border-white/10 bg-white/5 p-4">
-              <RiskDistributionChart />
-            </div>
-
-            <div className="rounded-2xl border border-white/10 bg-white/5 p-4">
-              <BarChartComponent />
-            </div>
-          </div>
-
-        </div>
-
-        {/* RIGHT SIDE */}
-        <div className="col-span-4 space-y-4">
-
-          {/* LIVE SYSTEM */}
-          <div className="rounded-xl border border-white/10 bg-white/5 p-4">
-            <div className="flex items-center gap-2 text-green-400 text-xs">
-              <Activity size={14} />
-              Live System
-            </div>
-
-            <div className="mt-3 text-2xl font-semibold text-white">
-              1,284
-            </div>
-
-            <div className="text-xs text-gray-400">
-              events / second
-            </div>
-          </div>
-
-          {/* ROOT CAUSE */}
-          <div className="rounded-xl border border-purple-500/20 bg-purple-500/5 p-4">
-            <div className="text-sm font-semibold text-white">
-              Root Cause Analysis
-            </div>
-
-            <div className="text-xs text-gray-400 mt-2">
-              Traffic spike linked to API key reuse + abnormal prompt patterns.
-            </div>
-
-            <div className="mt-3 text-xs text-purple-300">
-              Confidence: 91%
-            </div>
-          </div>
-
-          {/* WHY SPIKE */}
-          <div className="rounded-xl border border-blue-500/20 bg-blue-500/5 p-4">
-            <div className="text-sm font-semibold text-white">
-              Why This Spike Happened
-            </div>
-
-            <ul className="text-xs text-gray-400 mt-2 space-y-1">
-              <li>• Increased jailbreak attempts from APAC region</li>
-              <li>• New injection pattern detected</li>
-              <li>• Misconfigured applications sending bulk traffic</li>
-            </ul>
-          </div>
-
-          {/* KPI CORRELATION */}
-          <div className="rounded-xl border border-white/10 bg-white/5 p-4">
-            <div className="text-sm font-semibold text-white mb-3">
-              KPI Correlation
-            </div>
-
-            <div className="grid grid-cols-3 gap-2">
-              {[
-                ['Accuracy', 0.82],
-                ['Latency', 0.67],
-                ['Threats', 0.91],
-                ['False Pos', 0.44],
-                ['Throughput', 0.73],
-                ['Risk', 0.88],
-              ].map(([label, val]) => (
-                <div
-                  key={label as string}
-                  className="h-10 rounded bg-white/5 flex items-center justify-center text-[10px] text-gray-400"
-                  style={{
-                    borderColor: `rgba(59,130,246,${val})`,
-                    borderWidth: 1,
-                  }}
-                >
-                  {label}
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* QUICK STATS */}
-          <div className="rounded-xl border border-white/10 bg-white/5 p-4 space-y-3">
-            {[
-              ['Models', '12'],
-              ['Apps', '48'],
-              ['Requests', '2.4M'],
-            ].map(([k, v]) => (
-              <div key={k} className="flex justify-between text-sm">
-                <span className="text-gray-400">{k}</span>
-                <span className="text-white font-medium">{v}</span>
+          {/* Top patterns */}
+          <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
+            <p className="text-white font-semibold mb-4">Top Attack Patterns</p>
+            {loading ? <Skel h="h-32" /> : topPatterns.length === 0 ? (
+              <p className="text-gray-500 text-sm">No patterns detected yet.</p>
+            ) : (
+              <div className="space-y-2">
+                {topPatterns.map((p, i) => (
+                  <div key={i} className="flex items-center justify-between">
+                    <span className="text-gray-300 text-xs truncate flex-1">{p.name}</span>
+                    <span className="text-white text-xs font-mono ml-2">{p.count}</span>
+                  </div>
+                ))}
               </div>
-            ))}
+            )}
           </div>
 
-          {/* ATTACK SOURCES (EXPANDED) */}
-          <div className="rounded-xl border border-white/10 bg-white/5 p-4">
-            <div className="text-sm text-white mb-3 flex items-center gap-2">
-              <Globe size={14} />
-              Attack Sources
+          {/* Live throughput */}
+          <div className="rounded-2xl border border-green-500/20 bg-green-500/5 p-5">
+            <div className="flex items-center gap-2 text-green-400 text-xs mb-2">
+              <Activity className="h-4 w-4" />
+              Live Status
             </div>
-
-            <div className="space-y-2 max-h-[300px] overflow-y-auto pr-2">
-              {[
-                ['United States', 35],
-                ['India', 28],
-                ['Germany', 14],
-                ['Singapore', 12],
-                ['Brazil', 9],
-                ['United Kingdom', 8],
-                ['Canada', 7],
-                ['France', 6],
-                ['Netherlands', 5],
-                ['Australia', 5],
-                ['Japan', 4],
-                ['South Korea', 4],
-                ['UAE', 3],
-                ['Russia', 3],
-                ['China', 3],
-                ['Italy', 3],
-                ['Spain', 2],
-                ['Mexico', 2],
-                ['Indonesia', 2],
-                ['Vietnam', 2],
-                ['Turkey', 2],
-                ['South Africa', 1],
-                ['Poland', 1],
-                ['Sweden', 1],
-                ['Thailand', 1],
-                ['Malaysia', 1],
-                ['Saudi Arabia', 1],
-                ['Israel', 1],
-              ].map(([c, v]) => (
-                <div key={c as string}>
-                  <div className="flex justify-between text-[11px] text-gray-400">
-                    <span>{c}</span>
-                    <span>{v}%</span>
-                  </div>
-
-                  <div className="h-1.5 bg-gray-800 rounded">
-                    <div
-                      className="h-1.5 bg-blue-500 rounded"
-                      style={{ width: `${v}%` }}
-                    />
-                  </div>
-                </div>
-              ))}
-            </div>
+            <p className="text-2xl font-bold text-white">{total.toLocaleString()}</p>
+            <p className="text-gray-400 text-xs mt-1">total events in period</p>
           </div>
 
         </div>
+      </div>
+    </div>
+  )
+}
+
+// ─── Sub-components ──────────────────────────────────────────────────────────
+
+function MetricCard({ icon, label, value, sub, color }: { icon: React.ReactNode; label: string; value: string; sub?: string; color: string }) {
+  return (
+    <div className="rounded-2xl border border-white/10 bg-white/5 p-4 flex items-center gap-4">
+      <div className={`h-10 w-10 rounded-xl flex items-center justify-center ${color}`}>{icon}</div>
+      <div>
+        <p className="text-gray-400 text-xs uppercase tracking-wide">{label}</p>
+        <p className="text-white font-bold text-lg">{value}</p>
+        {sub && <p className="text-gray-500 text-xs">{sub}</p>}
       </div>
     </div>
   )

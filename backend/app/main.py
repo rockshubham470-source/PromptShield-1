@@ -7,6 +7,7 @@ from starlette.middleware.base import BaseHTTPMiddleware
 from starlette.responses import Response
 import time
 import logging
+import uuid
 from app.api import application_keys
 from app.core.config import settings
 from app.core.database import engine
@@ -18,7 +19,6 @@ from slowapi import Limiter, _rate_limit_exceeded_handler
 from slowapi.util import get_remote_address
 from slowapi.errors import RateLimitExceeded
 from prometheus_fastapi_instrumentator import Instrumentator
-import uuid
 
 Base.metadata.create_all(bind=engine)
 
@@ -27,6 +27,14 @@ app = FastAPI(
     version=settings.api_version,
     description="PromptShield Enterprise API",
 )
+
+# ── Correlation / Request-ID middleware ───────────────────────────────────────
+class RequestIDMiddleware(BaseHTTPMiddleware):
+    async def dispatch(self, request: Request, call_next):
+        request_id = request.headers.get("X-Request-ID") or str(uuid.uuid4())
+        response: Response = await call_next(request)
+        response.headers["X-Request-ID"] = request_id
+        return response
 
 # Security Headers Middleware
 class SecurityHeadersMiddleware(BaseHTTPMiddleware):
@@ -59,6 +67,7 @@ class RequestSizeLimitMiddleware(BaseHTTPMiddleware):
         response: Response = await call_next(request)
         return response
 
+app.add_middleware(RequestIDMiddleware)
 app.add_middleware(SecurityHeadersMiddleware)
 app.add_middleware(RequestSizeLimitMiddleware, max_size=5 * 1024 * 1024)  # 5MB limit
 
