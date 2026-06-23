@@ -65,9 +65,10 @@ async def get_caller(
 
     # JWT path
     user = await _user_from_jwt(token, db)
-    # org_id from JWT payload
-    payload = verify_token(token) or {}
-    org_id = payload.get("org_id", "")
+    # Look up org_id from DB (JWT doesn't embed it)
+    from app.models import OrganizationUser
+    org_user = db.query(OrganizationUser).filter(OrganizationUser.user_id == user.id).first()
+    org_id = org_user.organization_id if org_user else ""
     return user, org_id
 
 
