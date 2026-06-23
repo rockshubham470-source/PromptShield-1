@@ -20,9 +20,10 @@ class Handler(http.server.SimpleHTTPRequestHandler):
         super().__init__(*args, directory=DIR, **kwargs)
 
     def log_message(self, fmt, *args):
-        # Only log non-asset requests
-        if not any(args[0].endswith(ext) for ext in (".css",".js",".ico",".png")):
-            print(f"  {self.address_string()} → {args[0]}")
+        # Only log non-asset requests; args[0] may be a str or HTTPStatus object
+        msg = str(args[0]) if args else ''
+        if not any(msg.endswith(ext) for ext in (".css", ".js", ".ico", ".png")):
+            print(f"  {self.address_string()} → {msg}")
 
     def end_headers(self):
         # Allow the page to call localhost:8000 (PromptShield backend)

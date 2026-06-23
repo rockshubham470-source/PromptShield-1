@@ -255,7 +255,7 @@ async def me(
 
 # ── Profile update ─────────────────────────────────────────────────────────────
 
-from pydantic import EmailStr
+from pydantic import BaseModel, EmailStr
 from typing import Optional as _Optional
 
 class ProfileUpdateRequest(BaseModel):

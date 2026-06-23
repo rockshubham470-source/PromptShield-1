@@ -11,7 +11,7 @@ import json
 
 BASE = "http://localhost:8000/api"
 
-EMAIL    = "demo@promptshield.local"
+EMAIL    = "demo@promptshield-demo.com"
 PASSWORD = "DemoPass123!"
 APP_NAME = "Demo Chatbot"
 
@@ -21,9 +21,8 @@ def main():
 
     # ── 1. Register ──────────────────────────────────────────────────────────
     print("→ Registering demo user…")
-    r = s.post(f"{BASE}/auth/register", json={
-        "email": EMAIL, "password": PASSWORD,
-        "full_name": "Demo User", "organization_name": "Demo Org"
+    r = s.post(f"{BASE}/auth/signup", json={
+        "email": EMAIL, "password": PASSWORD, "name": "Demo User"
     })
     if r.status_code not in (200, 201):
         if "already" in r.text.lower() or r.status_code == 400:
@@ -39,16 +38,18 @@ def main():
         print(f"  Login failed: {r.status_code} {r.text}")
         sys.exit(1)
     token = r.json()["access_token"]
-    org_id = r.json().get("organization_id", "")
+    user_data = r.json().get("user", {})
+    org_id = user_data.get("organization_id", "")
     s.headers.update({"Authorization": f"Bearer {token}"})
     if org_id:
         s.headers.update({"X-Organization-ID": org_id})
     print(f"  ✓ Logged in  (org={org_id})")
 
-    # ── 3. Create application ────────────────────────────────────────────────
-    print("→ Creating application…")
-    r = s.post(f"{BASE}/applications", json={
-        "name": APP_NAME, "description": "PromptShield demo chatbot"
+    # ── 3. Create application + API key in one shot ──────────────────────────
+    print("→ Creating application + API key…")
+    r = s.post(f"{BASE}/applications?create_api_key=true", json={
+        "name": APP_NAME, "description": "PromptShield demo chatbot",
+        "environment": "development", "provider": "openai"
     })
     if r.status_code not in (200, 201):
         # Maybe already exists — list and reuse
@@ -60,17 +61,30 @@ def main():
             sys.exit(1)
         app_id = app["id"]
         print(f"  (reusing existing app id={app_id})")
+        # Need to create a key separately
+        r3 = s.post(f"{BASE}/application-keys/{app_id}")
+        if r3.status_code not in (200, 201):
+            print(f"  API key creation failed: {r3.status_code} {r3.text}")
+            sys.exit(1)
+        api_key = r3.json()["api_key"]
     else:
-        app_id = r.json()["id"]
-        print(f"  ✓ Application created  (id={app_id})")
+        body = r.json()
+        app_id = body.get("id") or body.get("application", {}).get("id", "")
+        # response_data["api_key"] = {"api_key": raw_key, "api_key_info": {...}}
+        api_key_block = body.get("api_key", {})
+        if isinstance(api_key_block, dict):
+            api_key = api_key_block.get("api_key", "")
+        else:
+            api_key = ""
+        if not api_key:
+            # fallback — create key separately
+            r3 = s.post(f"{BASE}/application-keys/{app_id}")
+            if r3.status_code not in (200, 201):
+                print(f"  API key creation failed: {r3.status_code} {r3.text}")
+                sys.exit(1)
+            api_key = r3.json()["api_key"]
 
-    # ── 4. Create API key ────────────────────────────────────────────────────
-    print("→ Creating API key…")
-    r = s.post(f"{BASE}/application-keys/{app_id}")
-    if r.status_code not in (200, 201):
-        print(f"  API key creation failed: {r.status_code} {r.text}")
-        sys.exit(1)
-    api_key = r.json()["api_key"]
+    print(f"  ✓ Application id={app_id}")
     print(f"  ✓ API Key: {api_key}")
 
     # ── 5. Save config ────────────────────────────────────────────────────────

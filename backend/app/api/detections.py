@@ -37,27 +37,56 @@ async def analyze_prompt(
     current_user, org_id = caller
 
     if not DETECTOR_AVAILABLE:
+        # Use simple heuristic scoring even without the SDK
+        prompt_lower = request.prompt.lower()
+        injection_keywords = [
+            "ignore", "override", "pretend", "jailbreak", "dan", "disregard",
+            "bypass", "system:", "<system>", "forget", "new instructions"
+        ]
+        keyword_hits = sum(1 for kw in injection_keywords if kw in prompt_lower)
+        mock_score = min(25 + keyword_hits * 20, 95)
+        mock_level = "safe" if mock_score < 40 else "caution" if mock_score < 70 else "risky" if mock_score < 85 else "critical"
+        mock_patterns = ["direct_override"] if keyword_hits > 0 else []
+
+        detection = Detection(
+            user_id=current_user.id,
+            application_id=request.application_id,
+            organization_id=org_id,
+            prompt=request.prompt[:500],
+            risk_score=mock_score,
+            risk_level=mock_level,
+            detected_patterns=json.dumps(mock_patterns),
+            processing_time_ms=5,
+            source="api"
+        )
+        db.add(detection)
+        metric = db.query(UsageMetric).filter(
+            UsageMetric.application_id == request.application_id
+        ).first()
+        if metric:
+            metric.total_requests += 1
+            if mock_score > 60:
+                metric.blocked_requests += 1
+        db.commit()
+        db.refresh(detection)
+
         return {
-            "id": "mock-id",
-            "is_safe": len(request.prompt) < 50,
-            "risk_score": 25 if len(request.prompt) < 50 else 85,
-            "risk_level": "safe" if len(request.prompt) < 50 else "critical",
-            "detected_patterns": ["direct_override"] if len(request.prompt) > 50 else [],
+            "id": detection.id,
+            "is_safe": mock_score < settings.default_risk_threshold,
+            "risk_score": mock_score,
+            "risk_level": mock_level,
+            "detected_patterns": mock_patterns,
             "processing_time_ms": 5,
-            "recommendations": ["Monitor this pattern"] if len(request.prompt) > 50 else []
+            "recommendations": ["Monitor this pattern"] if mock_patterns else []
         }
 
     result = detector.analyze(request.prompt)
 
-    risk_level_map = {
-        0: "safe",
-        1: "caution",
-        2: "risky",
-        3: "critical"
-    }
-
-    risk_level = risk_level_map.get(
-        0 if result.risk_score < 40 else 1 if result.risk_score < 70 else 2 if result.risk_score < 85 else 3
+    risk_level = (
+        "safe" if result.risk_score < 40 else
+        "caution" if result.risk_score < 70 else
+        "risky" if result.risk_score < 85 else
+        "critical"
     )
 
     detection = Detection(

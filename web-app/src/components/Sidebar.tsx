@@ -11,7 +11,7 @@ import {
   Activity,
   FileText,
   Gauge,
-  LockKeyhole,
+  Lock,
   Webhook,
   Users,
   CreditCard,
@@ -39,7 +39,7 @@ const menuItems = [
     items: [
       { icon: Shield, label: 'Rules', path: '/rules' },
       { icon: FileText, label: 'Audit Logs', path: '/audit-logs' },
-      { icon: LockKeyhole, label: 'Security', path: '/security' },
+      { icon: Lock, label: 'Security', path: '/security' },
       { icon: Webhook, label: 'Webhooks', path: '/webhooks' },
     ],
   },

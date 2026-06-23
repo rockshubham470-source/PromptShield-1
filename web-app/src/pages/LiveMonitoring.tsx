@@ -165,6 +165,3 @@ export default function LiveMonitoring() {
     </div>
   )
 }
-
-
-export default LiveMonitoring
