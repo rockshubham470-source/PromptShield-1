@@ -18,7 +18,10 @@ from app.api import mfa, webhooks, team, ip_allowlist, password_reset, sessions
 from slowapi import Limiter, _rate_limit_exceeded_handler
 from slowapi.util import get_remote_address
 from slowapi.errors import RateLimitExceeded
-from prometheus_fastapi_instrumentator import Instrumentator
+try:
+    from prometheus_fastapi_instrumentator import Instrumentator
+except ImportError:
+    Instrumentator = None
 
 try:
     Base.metadata.create_all(bind=engine)
@@ -119,7 +122,11 @@ app.add_middleware(
 )
 
 # Prometheus metrics
-Instrumentator().instrument(app).expose(app)
+if Instrumentator is not None:
+    try:
+        Instrumentator().instrument(app).expose(app)
+    except Exception as exc:
+        logging.warning("Prometheus instrumentation skipped: %s", exc)
 
 api_router = APIRouter(prefix=settings.api_prefix)
 
