@@ -1,0 +1,33 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+venv/
+.venv/
+env/
+*.egg-info/
+dist/
+build/
+
+# Environment files
+.env
+*.env.local
+
+# SQLite dev database
+*.db
+
+# Vercel
+.vercel/
+
+# Node
+node_modules/
+web-app/dist/
+web-app/.env
+web-app/.env.local
+
+# macOS
+.DS_Store
+
+# IDEs
+.vscode/settings.json
+.idea/
