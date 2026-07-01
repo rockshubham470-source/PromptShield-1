@@ -12,6 +12,18 @@
   "routes": [
     {
       "src": "/(.*)",
+      "methods": ["OPTIONS"],
+      "headers": {
+        "Access-Control-Allow-Origin": "https://promptshield-web-coral.vercel.app",
+        "Access-Control-Allow-Methods": "GET,OPTIONS,PATCH,DELETE,POST,PUT",
+        "Access-Control-Allow-Headers": "Content-Type, Authorization, X-Request-ID",
+        "Access-Control-Allow-Credentials": "true",
+        "Access-Control-Max-Age": "86400"
+      },
+      "status": 204
+    },
+    {
+      "src": "/(.*)",
       "dest": "api/index.py"
     }
   ],
@@ -25,7 +37,8 @@
     "DEFAULT_RISK_THRESHOLD": "60",
     "CACHE_SIZE": "1000",
     "TRUSTED_HOSTS": "promptshield-api-topaz.vercel.app,localhost,127.0.0.1",
-    "FRONTEND_URL": "https://your-frontend.vercel.app",
+    "FRONTEND_URL": "https://promptshield-web-coral.vercel.app",
+    "ALLOWED_ORIGINS": "https://promptshield-web-coral.vercel.app,http://localhost:3000,http://localhost:5173",
     "ENVIRONMENT": "production",
     "DEBUG": "false"
   }
