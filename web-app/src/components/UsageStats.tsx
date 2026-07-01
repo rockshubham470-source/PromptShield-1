@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import api from '../../lib/api.service'
+import api from '../lib/api.service'
 
 export const UsageStats = () => {
   const [stats, setStats] = useState<{requests: number; blocked: number} | null>(null)
+  const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
@@ -13,6 +14,8 @@ export const UsageStats = () => {
       } catch (err: any) {
         console.error(err)
         setError('Failed to load usage stats')
+      } finally {
+        setLoading(false)
       }
     }
     fetchStats()

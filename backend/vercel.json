@@ -16,6 +16,17 @@
     }
   ],
   "env": {
-    "PYTHONPATH": "/var/task"
+    "PYTHONPATH": "/var/task",
+    "SECRET_KEY": "your-secret-key-here-set-in-vercel-dashboard",
+    "ALGORITHM": "HS256",
+    "ACCESS_TOKEN_EXPIRE_MINUTES": "30",
+    "REFRESH_TOKEN_EXPIRE_DAYS": "7",
+    "ML_DETECTION_ENABLED": "true",
+    "DEFAULT_RISK_THRESHOLD": "60",
+    "CACHE_SIZE": "1000",
+    "TRUSTED_HOSTS": "promptshield-api-topaz.vercel.app,localhost,127.0.0.1",
+    "FRONTEND_URL": "https://your-frontend.vercel.app",
+    "ENVIRONMENT": "production",
+    "DEBUG": "false"
   }
 }

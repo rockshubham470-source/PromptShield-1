@@ -187,7 +187,7 @@ def create_webhook(
         "id": wh.id,
         "name": wh.name,
         "url": wh.url,
-        "secret": wh.secret,  # returned ONCE at creation
+        "secret": wh.secret,  
         "events": json.loads(wh.events),
         "is_active": wh.is_active,
         "created_at": wh.created_at,

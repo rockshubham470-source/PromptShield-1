@@ -13,11 +13,16 @@ import os
 from app.core.dependencies import get_current_user, get_caller
 from app.core.org_middleware import get_current_org
 from app.models import User, UsageMetric
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), '../../python-sdk'))
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', '..', 'python-sdk')))
 
 try:
     from promptshield.detector import PromptDetector
-    detector = PromptDetector()
+    detector = PromptDetector(
+        enable_heuristics=True,
+        enable_ml=settings.ml_detection_enabled,
+        threshold=settings.default_risk_threshold,
+        cache_size=settings.cache_size,
+    )
     DETECTOR_AVAILABLE = True
 except ImportError:
     DETECTOR_AVAILABLE = False
@@ -29,7 +34,7 @@ router = APIRouter(prefix="/detections", tags=["detections"], redirect_slashes=F
 async def analyze_prompt(
     request: DetectionRequest,
     db: Session = Depends(get_db),
-    caller=Depends(get_caller),   # accepts JWT or API key
+    caller=Depends(get_caller), 
 ):
     """Analyze a single prompt for injection attacks.
     Auth: Bearer <JWT> OR Bearer ps_<apikey> OR X-API-Key: ps_<apikey>
@@ -37,7 +42,6 @@ async def analyze_prompt(
     current_user, org_id = caller
 
     if not DETECTOR_AVAILABLE:
-        # Use simple heuristic scoring even without the SDK
         prompt_lower = request.prompt.lower()
         injection_keywords = [
             "ignore", "override", "pretend", "jailbreak", "dan", "disregard",

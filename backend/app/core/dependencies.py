@@ -22,20 +22,15 @@ async def get_current_user(
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Not authenticated")
     return await _user_from_jwt(credentials.credentials, db)
 
-
-# ─── API-key-aware auth (for /detections/analyze) ───────────────────────────
-
 class _APIKeyOrBearer(HTTPBearer):
     """Accept both JWT Bearer tokens and ps_… API keys."""
     def __init__(self):
         super().__init__(auto_error=False)
 
-    async def __call__(self, request: Request):  # type: ignore[override]
-        # 1. Try standard Authorization header
+    async def __call__(self, request: Request):
         creds = await super().__call__(request)
         if creds:
             return creds.credentials
-        # 2. Try X-API-Key header
         api_key = request.headers.get("X-API-Key")
         if api_key:
             return api_key
@@ -58,21 +53,15 @@ async def get_caller(
     """
     if not token:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Not authenticated")
-
-    # API key path: starts with "ps_"
     if token.startswith("ps_"):
         return await _resolve_api_key(token, db)
 
-    # JWT path
     user = await _user_from_jwt(token, db)
-    # Look up org_id from DB (JWT doesn't embed it)
     from app.models import OrganizationUser
     org_user = db.query(OrganizationUser).filter(OrganizationUser.user_id == user.id).first()
     org_id = org_user.organization_id if org_user else ""
     return user, org_id
 
-
-# ─── Helpers ─────────────────────────────────────────────────────────────────
 
 async def _user_from_jwt(token: str, db: Session) -> User:
     payload = verify_token(token)
@@ -88,7 +77,7 @@ async def _resolve_api_key(raw_key: str, db: Session) -> Tuple[User, str]:
     key_hash = hashlib.sha256(raw_key.encode()).hexdigest()
     api_key: Optional[ApiKey] = (
         db.query(ApiKey)
-        .filter(ApiKey.key_hash == key_hash, ApiKey.is_active == True)  # noqa: E712
+        .filter(ApiKey.key_hash == key_hash, ApiKey.is_active == True) 
         .first()
     )
     if not api_key:
@@ -98,7 +87,6 @@ async def _resolve_api_key(raw_key: str, db: Session) -> Tuple[User, str]:
     if not user:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="API key owner not found")
 
-    # Record usage without blocking the request
     api_key.last_used_at = datetime.now(timezone.utc)
     db.commit()
 

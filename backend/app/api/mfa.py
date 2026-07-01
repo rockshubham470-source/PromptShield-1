@@ -34,14 +34,14 @@ router = APIRouter(prefix="/mfa", tags=["mfa"])
 
 class MFASetupResponse(BaseModel):
     provisioning_uri: str
-    secret: str           # shown ONCE for manual entry
+    secret: str           
     backup_codes: list[str]
 
 class MFAVerifySetupRequest(BaseModel):
     code: str
 
 class MFADisableRequest(BaseModel):
-    code: str             # current TOTP code OR backup code
+    code: str             
 
 class MFAStatusResponse(BaseModel):
     enabled: bool
@@ -62,12 +62,10 @@ def _verify_code_or_backup(mfa: MFASecret, code: str) -> bool:
     totp = pyotp.TOTP(mfa.secret)
     if totp.verify(code, valid_window=1):
         return True
-    # Check backup codes
     if mfa.backup_codes:
         backups: list[str] = json.loads(mfa.backup_codes)
         code_hash = hashlib.sha256(code.upper().encode()).hexdigest()
         if code_hash in backups:
-            # Consume the backup code (one-time use)
             backups.remove(code_hash)
             mfa.backup_codes = json.dumps(backups)
             return True
@@ -93,7 +91,6 @@ def setup_mfa(
     db: Session = Depends(get_db),
 ):
     """Generate a new TOTP secret (does NOT activate MFA yet)."""
-    # Remove any previous pending setup
     existing = db.query(MFASecret).filter(MFASecret.user_id == current_user.id).first()
     if existing and existing.is_enabled:
         raise HTTPException(status_code=400, detail="MFA is already enabled. Disable it first.")

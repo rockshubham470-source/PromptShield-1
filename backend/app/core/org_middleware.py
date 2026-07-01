@@ -4,6 +4,7 @@ from sqlalchemy.orm import Session
 from app.core.database import get_db
 from app.core.security import decode_token
 from app.models import OrganizationUser, User
+from app.core.auth_fallback import get_fallback_org_for_user
 
 def get_current_org(request: Request, db: Session = Depends(get_db)):
     """
@@ -23,7 +24,6 @@ def get_current_org(request: Request, db: Session = Depends(get_db)):
     if not user_id:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED,
                             detail="Token missing user identifier")
-    # Find the user's organization (pick the first if multiple)
     org_user = db.query(OrganizationUser).filter(OrganizationUser.user_id == user_id).first()
     if not org_user:
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN,

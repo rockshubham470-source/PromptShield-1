@@ -41,7 +41,6 @@ def list_sessions(
         UserSession.expires_at > now,
     ).order_by(UserSession.last_active_at.desc()).all()
 
-    # Identify current session via JTI in token
     from app.core.security import verify_token
     auth_header = request.headers.get("Authorization", "")
     current_jti = None

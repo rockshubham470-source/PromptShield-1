@@ -23,9 +23,6 @@ from app.core.dependencies import get_current_user
 from app.core.org_middleware import get_current_org
 from app.models import User, Subscription, Plan, UsageMetric
 
-# ── Plan limit definitions ────────────────────────────────────────────────────
-# None means unlimited.
-
 PLAN_LIMITS: dict[str, dict[str, Optional[int]]] = {
     "free": {
         "detections_per_month": 1_000,

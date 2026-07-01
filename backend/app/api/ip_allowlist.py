@@ -60,7 +60,7 @@ def is_ip_allowed(client_ip: str, org_id: str, db: Session) -> bool:
     ).all()
 
     if not entries:
-        return True   # no restrictions configured → allow all
+        return True  
 
     try:
         ip = ipaddress.ip_address(client_ip)

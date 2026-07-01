@@ -116,6 +116,7 @@ api.interceptors.response.use(
     if (originalRequest._retryCount > 1) {
       // Clear auth data
       localStorage.removeItem('token');
+      localStorage.removeItem('refresh_token');
       localStorage.removeItem('organization_id');
       localStorage.removeItem('organization_name');
       
@@ -124,54 +125,41 @@ api.interceptors.response.use(
       return Promise.reject(error);
     }
 
-    // Check if we can refresh the token
-    const token = getToken();
-    if (token && !isTokenExpired(token)) {
-      // Token is not expired, but we got 401 - might be invalid token
-      // Clear auth and redirect
-      localStorage.removeItem('token');
-      localStorage.removeItem('organization_id');
-      localStorage.removeItem('organization_name');
-      window.location.href = '/login';
-      return Promise.reject(error);
-    }
-
-    // If no token or token is expired, try to refresh
+    // Try to refresh the token
     if (!isRefreshing) {
       isRefreshing = true;
       
       try {
-        // Attempt to refresh token by calling refresh endpoint
-        // Note: This assumes your backend has a refresh token endpoint
-        // If not, you'll need to implement your own refresh logic
         const refreshToken = localStorage.getItem('refresh_token');
+        console.log('Attempting refresh with token:', !!refreshToken);
         
-        if (refreshToken) {
-          const response = await api.post('/auth/refresh', { 
-            refresh_token: refreshToken 
-          });
-          
-          const { access_token, refresh_token } = response.data;
-          
-          // Update tokens
-          localStorage.setItem('token', access_token);
-          if (refresh_token) {
-            localStorage.setItem('refresh_token', refresh_token);
-          }
-          
-          // Update authorization header for original request
-          originalRequest.headers.Authorization = `Bearer ${access_token}`;
-          
-          // Process queued requests
-          processQueue(null, access_token);
-          
-          // Retry original request
-          return api(originalRequest);
-        } else {
-          // No refresh token available
+        if (!refreshToken) {
           throw new Error('No refresh token available');
         }
+        
+        const response = await api.post('/auth/refresh', { 
+          refresh_token: refreshToken 
+        });
+        
+        const { access_token, refresh_token: new_refresh_token } = response.data;
+        console.log('Refresh successful');
+        
+        // Update tokens
+        localStorage.setItem('token', access_token);
+        if (new_refresh_token) {
+          localStorage.setItem('refresh_token', new_refresh_token);
+        }
+        
+        // Update authorization header for original request
+        originalRequest.headers.Authorization = `Bearer ${access_token}`;
+        
+        // Process queued requests
+        processQueue(null, access_token);
+        
+        // Retry original request
+        return api(originalRequest);
       } catch (refreshError) {
+        console.error('Refresh failed:', refreshError);
         // Refresh failed - clear auth and redirect
         localStorage.removeItem('token');
         localStorage.removeItem('refresh_token');

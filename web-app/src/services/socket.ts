@@ -1,7 +1,18 @@
 class DummySocket {
-  on() {}
-  emit() {}
-  off() {}
+  connected = false
+
+  on(..._args: any[]) {
+    return this
+  }
+
+  emit(..._args: any[]) {
+    return this
+  }
+
+  off(..._args: any[]) {
+    return this
+  }
+
   disconnect() {}
 }
 

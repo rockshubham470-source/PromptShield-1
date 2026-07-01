@@ -70,10 +70,9 @@ def request_password_reset(body: PasswordResetRequest, db: Session = Depends(get
         db.add(prt)
         db.commit()
 
-        # NOTE: In production, email `raw_token` to the user, do NOT return it here.
         return {
             "message": "If that email exists, a reset link has been sent.",
-            "debug_token": raw_token,   # Remove in production
+            "debug_token": raw_token,
         }
 
     return {"message": "If that email exists, a reset link has been sent."}

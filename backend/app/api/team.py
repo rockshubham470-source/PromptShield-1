@@ -53,8 +53,8 @@ class InviteInfoResponse(BaseModel):
     expires_at: datetime
 
 class AcceptInviteRequest(BaseModel):
-    name: Optional[str] = None      # only needed when user doesn't exist yet
-    password: Optional[str] = None  # only needed when user doesn't exist yet
+    name: Optional[str] = None    
+    password: Optional[str] = None  
 
 
 # ── helpers ───────────────────────────────────────────────────────────────────
@@ -118,7 +118,6 @@ def invite_member(
     if body.role not in VALID_ROLES:
         raise HTTPException(status_code=400, detail=f"Invalid role. Must be one of: {VALID_ROLES}")
 
-    # Check if already a member
     existing_user = db.query(User).filter(User.email == body.email).first()
     if existing_user:
         existing_membership = db.execute(
@@ -130,7 +129,6 @@ def invite_member(
         if existing_membership:
             raise HTTPException(status_code=400, detail="User is already a member of this organization.")
 
-    # Invalidate any pending invite for same email+org
     db.query(TeamInvitation).filter(
         TeamInvitation.organization_id == org_id,
         TeamInvitation.email == body.email,
@@ -150,11 +148,11 @@ def invite_member(
     db.commit()
 
     org = db.query(Organization).filter(Organization.id == org_id).first()
-    # In production you'd send an email here; for now return the token
+
     return {
         "message": f"Invitation sent to {body.email}",
         "invite_token": token,
-        "invite_url": f"/invite/{token}",    # frontend route
+        "invite_url": f"/invite/{token}",   
         "expires_at": invite.expires_at,
         "organization": org.name if org else org_id,
     }
@@ -218,7 +216,6 @@ def accept_invite(
         db.add(user)
         db.flush()
 
-    # Create org membership
     db.execute(
         organization_users.insert().values(
             organization_id=inv.organization_id,

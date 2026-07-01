@@ -20,7 +20,10 @@ from slowapi.util import get_remote_address
 from slowapi.errors import RateLimitExceeded
 from prometheus_fastapi_instrumentator import Instrumentator
 
-Base.metadata.create_all(bind=engine)
+try:
+    Base.metadata.create_all(bind=engine)
+except Exception as exc:
+    logging.warning("Database initialization skipped: %s", exc)
 
 app = FastAPI(
     title=settings.api_title,
@@ -79,20 +82,37 @@ app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
 # Stricter rate limiting for auth endpoints
 auth_limiter = Limiter(key_func=get_remote_address, default_limits=["5 per minute"])
 
+trusted_hosts = list(settings.trusted_hosts or [])
+trusted_hosts.extend([
+    "promptshield-web-coral.vercel.app",
+    "promptshield-api-topaz.vercel.app",
+    "*.vercel.app",
+])
+trusted_hosts = list(dict.fromkeys(trusted_hosts))
+
 app.add_middleware(
     TrustedHostMiddleware,
-    allowed_hosts=settings.trusted_hosts
+    allowed_hosts=trusted_hosts if trusted_hosts else ["*"]
 )
 
 # CORSMiddleware must be outermost (added last) so it handles preflight before auth
+allowed_origins = list(settings.allowed_origins or [])
+allowed_origins.extend([
+    "http://127.0.0.1:3000",
+    "http://localhost:3000",
+    "http://localhost:4000",
+    "http://127.0.0.1:4000",
+    "https://51xkwxc6-3000.inc1.devtunnels.ms",
+    "https://promptshield-web-coral.vercel.app",
+    "https://promptshield-api-topaz.vercel.app",
+])
+if settings.frontend_url:
+    allowed_origins.append(settings.frontend_url)
+allowed_origins = list(dict.fromkeys(allowed_origins))
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=settings.allowed_origins + [
-        "http://127.0.0.1:3000",
-        "http://localhost:4000",
-        "http://127.0.0.1:4000",
-        "https://51xkwxc6-3000.inc1.devtunnels.ms",
-    ] + ([settings.frontend_url] if settings.frontend_url else []),
+    allow_origins=allowed_origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

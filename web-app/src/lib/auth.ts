@@ -40,6 +40,7 @@ export const useAuthStore = create<AuthState>((set) => ({
       set({ user: userWithOrg, isAuthenticated: true, token })
     } catch {
       localStorage.removeItem('token')
+      localStorage.removeItem('refresh_token')
       localStorage.removeItem('organization_id')
       localStorage.removeItem('organization_name')
       set({ isAuthenticated: false, user: null, token: null })
@@ -52,10 +53,13 @@ export const useAuthStore = create<AuthState>((set) => ({
       password,
     })
 
-    const { access_token, user } = response.data
+    const { access_token, refresh_token, user } = response.data
     const userWithOrg = user as User
 
     localStorage.setItem('token', access_token)
+    if (refresh_token) {
+      localStorage.setItem('refresh_token', refresh_token)
+    }
     localStorage.setItem('organization_id', userWithOrg.organization_id || '')
     localStorage.setItem('organization_name', userWithOrg.organization_name || '')
 
@@ -67,6 +71,7 @@ export const useAuthStore = create<AuthState>((set) => ({
   },
   logout: () => {
     localStorage.removeItem('token')
+    localStorage.removeItem('refresh_token')
     localStorage.removeItem('organization_id')
     localStorage.removeItem('organization_name')
     set({ user: null, token: null, isAuthenticated: false })
@@ -86,10 +91,13 @@ export const useAuthStore = create<AuthState>((set) => ({
       }
     )
 
-    const { access_token, user } = response.data
+    const { access_token, refresh_token, user } = response.data
     const userWithOrg = user as User
 
     localStorage.setItem('token', access_token)
+    if (refresh_token) {
+      localStorage.setItem('refresh_token', refresh_token)
+    }
     localStorage.setItem('organization_id', userWithOrg.organization_id || '')
     localStorage.setItem('organization_name', userWithOrg.organization_name || '')
 
