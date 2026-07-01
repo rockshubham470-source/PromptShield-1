@@ -80,24 +80,19 @@ app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
 auth_limiter = Limiter(key_func=get_remote_address, default_limits=["5 per minute"])
 
 app.add_middleware(
+    TrustedHostMiddleware,
+    allowed_hosts=settings.trusted_hosts
+)
+
+# CORSMiddleware must be outermost (added last) so it handles preflight before auth
+app.add_middleware(
     CORSMiddleware,
-    allow_origins=[
-        "http://localhost:3000",
-        "http://127.0.0.1:3000",
-        "https://51xkwxc6-3000.inc1.devtunnels.ms"
-    ],
+    allow_origins=settings.allowed_origins + (
+        [settings.frontend_url] if settings.frontend_url else []
+    ),
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
-)
-
-app.add_middleware(
-    TrustedHostMiddleware,
-    allowed_hosts=[
-        "localhost",
-        "127.0.0.1",
-        "*.inc1.devtunnels.ms"
-    ]
 )
 
 # Prometheus metrics
@@ -151,4 +146,5 @@ async def root():
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    host = "127.0.0.1" if settings.environment == "development" else "0.0.0.0"
+    uvicorn.run(app, host=host, port=8000)
