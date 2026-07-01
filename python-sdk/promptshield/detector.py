@@ -217,7 +217,7 @@ class PromptDetector:
         patterns = detect_heuristic_patterns(text)
         if patterns:
             pattern_risks = [p["confidence"] * p["risk_multiplier"] * 20 for p in patterns]
-            score += sum(pattern_risks) / len(pattern_risks)
+            score += sum(pattern_risks)
         
         # Check entropy (high entropy might indicate obfuscation)
         entropy = calculate_entropy(text)
